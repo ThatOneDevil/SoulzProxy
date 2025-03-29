@@ -30,11 +30,11 @@ class ServerBroadcast(override var commandName: String, override var aliases: St
         val message = invocation.arguments().joinToString(" ")
         val broadcastMessage: String = Config.getMessage("messages.broadcast.broadcastMessage").replace("<message>", message)
 
-        proxy.allServers.forEach { _ ->
-            proxy.sendMessage(Component.empty())
-            proxy.sendMessage(convertLegacyToMiniMessage(broadcastMessage))
-            proxy.sendMessage(Component.empty())
-        }
+
+        proxy.sendMessage(Component.empty())
+        proxy.sendMessage(convertLegacyToMiniMessage(broadcastMessage))
+        proxy.sendMessage(Component.empty())
+
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
