@@ -1,0 +1,15 @@
+messages:
+  # <message> message in the argument
+  global:
+    permissionError: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>You don't have permission to use this command."
+
+  broadcast:
+    noArguments: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Broadcast message not found."
+    broadcastMessage: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80><message>"
+
+  hub:
+    hubError: "<color:#F11642>&l▍ Error &r<color:#EF5B80>Hub server not found."
+    hubSuccess: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Teleporting to hub..."
+
+
+
