@@ -8,8 +8,8 @@ import me.thatonedevil.soulzProxy.SoulzProxy.Companion.instance
 interface SoulzCommand : SimpleCommand {
 
     var commandName: String
-    var proxy: ProxyServer
     var aliases: String?
+    var proxy: ProxyServer
 
     fun commandMeta(): CommandMeta {
         val commandMeta = proxy.commandManager.metaBuilder(commandName)

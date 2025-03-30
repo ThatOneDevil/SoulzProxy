@@ -2,6 +2,7 @@ messages:
   # <message> message in the argument
   global:
     permissionError: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>You don't have permission to use this command."
+    configReloadSuccess: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Configuration reloaded successfully."
 
   broadcast:
     noArguments: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Broadcast message not found."
@@ -10,6 +11,13 @@ messages:
   hub:
     hubError: "<color:#F11642>&l▍ Error &r<color:#EF5B80>Hub server not found."
     hubSuccess: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Teleporting to hub..."
+
+  sendCommand:
+    noServerError: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Server not found."
+    sendPlayerToServer: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Teleporting <color:#F11642><player> <color:#EF5B80>to <color:#F11642><server>..."
+
+    noArgumentsServer: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Server not found."
+    noArgumentsPlayer: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Player not found."
 
 
 

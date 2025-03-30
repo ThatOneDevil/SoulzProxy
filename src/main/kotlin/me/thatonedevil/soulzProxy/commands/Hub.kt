@@ -29,7 +29,6 @@ class Hub(override var commandName: String, override var aliases: String?, overr
         }, {
             source.sendMessage(convertLegacyToMiniMessage(hubServerNotFoundMessage))
         })
-
     }
 
 }

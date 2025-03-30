@@ -1,14 +1,17 @@
 package me.thatonedevil.soulzProxy.utils
 
+import me.thatonedevil.soulzProxy.SoulzProxy
 import org.yaml.snakeyaml.Yaml
 import java.io.InputStream
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 import java.util.concurrent.CompletableFuture
+import kotlin.io.path.Path
+import kotlin.io.path.pathString
 
 object Config {
-    private val configPath: Path = Path.of("plugins/SoulNetwork/config.yml")
+    private val configPath: Path = Path("${SoulzProxy.instance.dataDirectory.pathString}/config.yml")
     private var messages: Map<String, Any>? = null
 
     fun loadConfigAsync(): CompletableFuture<Void> {
