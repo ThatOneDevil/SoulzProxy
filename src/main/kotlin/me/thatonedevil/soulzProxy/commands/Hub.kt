@@ -24,12 +24,11 @@ class Hub(override var commandName: String, override var aliases: String?, overr
 
 
         server.ifPresentOrElse({
-            source.createConnectionRequest(it).fireAndForget()
+            source.createConnectionRequest(it).connect()
             source.sendMessage(convertLegacyToMiniMessage(hubSuccessMessage))
         }, {
             source.sendMessage(convertLegacyToMiniMessage(hubServerNotFoundMessage))
         })
-
     }
 
 }

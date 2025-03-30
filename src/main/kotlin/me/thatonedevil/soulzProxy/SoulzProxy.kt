@@ -6,13 +6,12 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent
 import com.velocitypowered.api.plugin.Dependency
 import com.velocitypowered.api.plugin.Plugin
+import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
-import com.velocitypowered.api.proxy.server.RegisteredServer
-import me.thatonedevil.soulzProxy.commands.Hub
-import me.thatonedevil.soulzProxy.commands.ServerBroadcast
+import me.thatonedevil.soulzProxy.commands.*
 import me.thatonedevil.soulzProxy.utils.Config
-import net.luckperms.api.LuckPerms
 import org.slf4j.Logger
+import java.nio.file.Path
 
 
 @Plugin(
@@ -27,7 +26,7 @@ import org.slf4j.Logger
 )
 
 
-class SoulzProxy @Inject constructor(private val logger: Logger, private var proxy: ProxyServer) {
+class SoulzProxy @Inject constructor(private val logger: Logger, private var proxy: ProxyServer, @DataDirectory val dataDirectory: Path) {
 
     companion object {
         lateinit var instance: SoulzProxy
@@ -41,9 +40,19 @@ class SoulzProxy @Inject constructor(private val logger: Logger, private var pro
         val commandManager = proxy.commandManager
         val hubCommand = Hub("hub", null, proxy)
         val serverBroadcast = ServerBroadcast("serverbroadcast", "sb", proxy)
+        val configReload = ConfigReload("configreload", null, proxy)
+        val sendPlayerToServer = SendPlayerToServer("sendplayertoserver", null, proxy)
+        val sendServerToServer = SendServerToServer("sendserverrtoserver", null, proxy)
+
+        println(proxy.allServers.forEach {
+            logger.info("Server: ${it.serverInfo.name}")
+        })
 
         commandManager.register(hubCommand.commandMeta(), hubCommand)
         commandManager.register(serverBroadcast.commandMeta(), serverBroadcast)
+        commandManager.register(configReload.commandMeta(), configReload)
+        commandManager.register(sendPlayerToServer.commandMeta(), sendPlayerToServer)
+        commandManager.register(sendServerToServer.commandMeta(), sendServerToServer)
 
         Config.loadConfigAsync()
 

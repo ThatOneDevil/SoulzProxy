@@ -3,12 +3,12 @@ package me.thatonedevil.soulzProxy.commands
 import com.velocitypowered.api.command.SimpleCommand
 import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.ProxyServer
-import me.thatonedevil.soulzProxy.SoulzCommand
+import me.thatonedevil.soulzProxy.SoulzCommandAdmin
 import me.thatonedevil.soulzProxy.utils.Config
 import me.thatonedevil.soulzProxy.utils.Utils.convertLegacyToMiniMessage
 import net.kyori.adventure.text.Component
 
-class ServerBroadcast(override var commandName: String, override var aliases: String?, override var proxy: ProxyServer,) : SoulzCommand {
+class ServerBroadcast(override var commandName: String, override var aliases: String?, override var proxy: ProxyServer,) : SoulzCommandAdmin {
     override fun execute(invocation: SimpleCommand.Invocation) {
         val source = invocation.source()
 
@@ -35,9 +35,5 @@ class ServerBroadcast(override var commandName: String, override var aliases: St
         proxy.sendMessage(convertLegacyToMiniMessage(broadcastMessage))
         proxy.sendMessage(Component.empty())
 
-    }
-
-    override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
-        return invocation.source().hasPermission("soulzProxy.serverbroadcast");
     }
 }
