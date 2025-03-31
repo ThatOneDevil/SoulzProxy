@@ -1,4 +1,4 @@
-package me.thatonedevil.soulzProxy;
+package me.thatonedevil.soulzProxy
 
 import com.google.inject.Inject
 import com.velocitypowered.api.event.Subscribe

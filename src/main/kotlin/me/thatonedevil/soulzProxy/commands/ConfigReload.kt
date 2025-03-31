@@ -18,6 +18,6 @@ class ConfigReload(override var commandName: String, override var aliases: Strin
     }
 
     override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
-        return invocation.source().hasPermission("soulzProxy.configreload");
+        return invocation.source().hasPermission("soulzProxy.configreload")
     }
 }
