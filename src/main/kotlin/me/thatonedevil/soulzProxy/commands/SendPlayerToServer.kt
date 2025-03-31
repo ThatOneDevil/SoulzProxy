@@ -26,6 +26,8 @@ class SendPlayerToServer(override var commandName: String, override var aliases:
             return
         }
 
+        suggestAsync(invocation)
+
         if (invocation.arguments().isEmpty()) {
             source.sendMessage(convertLegacyToMiniMessage(Config.getMessage("messages.sendCommand.noArgumentsPlayer")))
             return
@@ -35,6 +37,7 @@ class SendPlayerToServer(override var commandName: String, override var aliases:
             source.sendMessage(convertLegacyToMiniMessage(Config.getMessage("messages.sendCommand.noArgumentsServer")))
             return
         }
+
 
         val player = proxy.getPlayer(invocation.arguments()[0]).get()
         val serverName = invocation.arguments()[1]

@@ -27,6 +27,8 @@ class SendServerToServer(override var commandName: String, override var aliases:
             return
         }
 
+        suggestAsync(invocation)
+
         val noServerError = convertLegacyToMiniMessage(Config.getMessage("messages.sendCommand.noArgumentsServer"))
         if (invocation.arguments().isEmpty()) {
             source.sendMessage(noServerError)
