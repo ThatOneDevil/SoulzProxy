@@ -6,7 +6,7 @@ messages:
   # <message> message in the argument
   broadcast:
     noArguments: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Broadcast message not found."
-    broadcastMessage: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80><message>"
+    broadcastMessage: "<color:#F11642>&l▍ <color:#F11642>Global Broadcast\n<color:#F11642>&l▍ &r<color:#EF5B80><player>: &f<message>"
 
   hub:
     hubError: "<color:#F11642>&l▍ Error &r<color:#EF5B80>Hub server not found."
@@ -23,6 +23,3 @@ messages:
 
     noArgumentsServer: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Server not found."
     noArgumentsPlayer: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Player not found."
-
-
-

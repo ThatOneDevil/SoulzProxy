@@ -23,7 +23,7 @@ class ServerBroadcast(override var commandName: String, override var aliases: St
         }
 
         val message = invocation.arguments().joinToString(" ")
-        val broadcastMessage: String = Config.getMessage("messages.broadcast.broadcastMessage").replace("<message>", message)
+        val broadcastMessage: String = Config.getMessage("messages.broadcast.broadcastMessage").replace("<message>", message).replace("<player>", source.username)
 
 
         proxy.sendMessage(Component.empty())
