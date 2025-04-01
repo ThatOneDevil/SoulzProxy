@@ -22,11 +22,6 @@ class SendServerToServer(override var commandName: String, override var aliases:
             return
         }
 
-        if (!hasPermission(invocation)) {
-            source.sendMessage(convertLegacyToMiniMessage(Config.getMessage("messages.global.permissionError")))
-            return
-        }
-
         suggestAsync(invocation)
 
         val noServerError = convertLegacyToMiniMessage(Config.getMessage("messages.sendCommand.noArgumentsServer"))

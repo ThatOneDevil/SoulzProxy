@@ -16,8 +16,4 @@ class ConfigReload(override var commandName: String, override var aliases: Strin
         source.sendMessage(convertLegacyToMiniMessage(Config.getMessage("messages.global.configReloadSuccess")))
 
     }
-
-    override fun hasPermission(invocation: SimpleCommand.Invocation): Boolean {
-        return invocation.source().hasPermission("soulzProxy.configreload")
-    }
 }

@@ -21,11 +21,6 @@ class SendPlayerToServer(override var commandName: String, override var aliases:
             return
         }
 
-        if (!hasPermission(invocation)) {
-            source.sendMessage(convertLegacyToMiniMessage(Config.getMessage("messages.global.permissionError")))
-            return
-        }
-
         suggestAsync(invocation)
 
         if (invocation.arguments().isEmpty()) {

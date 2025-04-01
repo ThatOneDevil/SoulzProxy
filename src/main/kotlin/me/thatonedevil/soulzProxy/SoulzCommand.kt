@@ -21,4 +21,4 @@ interface SoulzCommand : SimpleCommand {
 
         return commandMeta.build()
     }
-}
+}   

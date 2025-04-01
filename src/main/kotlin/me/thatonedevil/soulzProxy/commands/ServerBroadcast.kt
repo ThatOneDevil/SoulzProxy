@@ -17,11 +17,6 @@ class ServerBroadcast(override var commandName: String, override var aliases: St
             return
         }
 
-        if (!hasPermission(invocation)) {
-            source.sendMessage(convertLegacyToMiniMessage(Config.getMessage("messages.global.permissionError")))
-            return
-        }
-
         if (invocation.arguments().isEmpty()) {
             source.sendMessage(convertLegacyToMiniMessage(Config.getMessage("messages.broadcast.noArguments")))
             return
