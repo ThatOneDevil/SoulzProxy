@@ -9,9 +9,12 @@ import me.thatonedevil.soulzProxy.utils.Utils.convertLegacyToMiniMessage
 import net.kyori.adventure.text.Component
 import java.util.concurrent.CompletableFuture
 import java.util.stream.Collectors
+import kotlin.jvm.optionals.getOrElse
+import kotlin.jvm.optionals.getOrNull
 
 
-class SendPlayerToServer(override var commandName: String, override var aliases: String?,  override var proxy: ProxyServer ) : SoulzCommandAdmin {
+class Send(override var commandName: String, override var aliases: String?, override var proxy: ProxyServer ) : SoulzCommandAdmin {
+
 
     override fun execute(invocation: SimpleCommand.Invocation) {
         val source = invocation.source()
@@ -20,8 +23,6 @@ class SendPlayerToServer(override var commandName: String, override var aliases:
             source.sendMessage(Component.text("Only players can use this command."))
             return
         }
-
-        suggestAsync(invocation)
 
         if (invocation.arguments().isEmpty()) {
             source.sendMessage(convertLegacyToMiniMessage(Config.getMessage("messages.sendCommand.noArgumentsPlayer")))
@@ -33,30 +34,48 @@ class SendPlayerToServer(override var commandName: String, override var aliases:
             return
         }
 
+        val playerArg = invocation.arguments()[0]
+        val serverNameArg = invocation.arguments()[1]
+        val server = proxy.getServer(serverNameArg).getOrElse {
+            source.sendMessage(convertLegacyToMiniMessage(Config.getMessage("messages.sendCommand.noArgumentsServer")))
+            return
+        }
 
-        val player = proxy.getPlayer(invocation.arguments()[0]).get()
-        val serverName = invocation.arguments()[1]
-        val server = proxy.getServer(serverName)
+        if (playerArg == "all") {
+            val sendPlayerToServerMessage: String = Config.getMessage("messages.sendCommand.sendServerToServer")
+                .replace("<server>", serverNameArg)
+
+            for (player in source.currentServer.get().server.playersConnected) {
+                player.createConnectionRequest(server).connect()
+            }
+
+            source.sendMessage(convertLegacyToMiniMessage(sendPlayerToServerMessage))
+
+            return
+        }
+
+        val player = proxy.getPlayer(invocation.arguments()[0]).getOrElse {
+            source.sendMessage(convertLegacyToMiniMessage(Config.getMessage("messages.sendCommand.noArgumentsPlayer")))
+            return
+        }
+
+        player.createConnectionRequest(server).connect()
 
         val sendPlayerToServerMessage: String = Config.getMessage("messages.sendCommand.sendPlayerToServer")
             .replace("<player>", player.username)
-            .replace("<server>", serverName)
-        val sendPlayerToServerErrorMessage: String = Config.getMessage("messages.sendCommand.noServerError")
+            .replace("<server>", serverNameArg)
 
-        server.ifPresentOrElse({
-            player.createConnectionRequest(it).connect()
-            source.sendMessage(convertLegacyToMiniMessage(sendPlayerToServerMessage))
-        }, {
-            source.sendMessage(convertLegacyToMiniMessage(sendPlayerToServerErrorMessage))
-        })
+        source.sendMessage(convertLegacyToMiniMessage(sendPlayerToServerMessage))
     }
 
 
     override fun suggestAsync(invocation: SimpleCommand.Invocation): CompletableFuture<List<String>> {
         if (invocation.arguments().isEmpty()) {
-            val players = proxy.allPlayers.stream()
+            val players = mutableListOf("all")
+
+            players.addAll(proxy.allPlayers.stream()
                 .map { player: Player -> player.username }
-                .collect(Collectors.toList())
+                .collect(Collectors.toList()))
 
             return CompletableFuture.completedFuture(players)
         }
@@ -71,5 +90,6 @@ class SendPlayerToServer(override var commandName: String, override var aliases:
 
         return CompletableFuture.completedFuture(emptyList())
     }
+
     
 }

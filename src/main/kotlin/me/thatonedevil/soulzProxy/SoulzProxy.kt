@@ -41,8 +41,7 @@ class SoulzProxy @Inject constructor(private val logger: Logger, private var pro
         val hubCommand = Hub("hub", null, proxy)
         val serverBroadcast = ServerBroadcast("serverBroadcast", "sb", proxy)
         val configReload = ConfigReload("configReload", null, proxy)
-        val sendPlayerToServer = SendPlayerToServer("sendPlayerToServer", null, proxy)
-        val sendServerToServer = SendServerToServer("sendServerToServer", null, proxy)
+        val send = Send("send", null, proxy)
         val proxyInfo = ProxyInfo("proxyInfo", null, proxy)
 
         println(proxy.allServers.forEach {
@@ -52,11 +51,11 @@ class SoulzProxy @Inject constructor(private val logger: Logger, private var pro
         commandManager.register(hubCommand.commandMeta(), hubCommand)
         commandManager.register(serverBroadcast.commandMeta(), serverBroadcast)
         commandManager.register(configReload.commandMeta(), configReload)
-        commandManager.register(sendPlayerToServer.commandMeta(), sendPlayerToServer)
-        commandManager.register(sendServerToServer.commandMeta(), sendServerToServer)
+        commandManager.register(send.commandMeta(), send)
         commandManager.register(proxyInfo.commandMeta(), proxyInfo)
 
         Config.loadConfigAsync()
+
 
     }
 

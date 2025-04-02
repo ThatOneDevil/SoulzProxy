@@ -22,7 +22,6 @@ class Hub(override var commandName: String, override var aliases: String?, overr
         val hubSuccessMessage: String = Config.getMessage("messages.hub.hubSuccess")
         val hubServerNotFoundMessage: String = Config.getMessage("messages.hub.hubError")
 
-
         server.ifPresentOrElse({
             source.createConnectionRequest(it).connect()
             source.sendMessage(convertLegacyToMiniMessage(hubSuccessMessage))

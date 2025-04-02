@@ -13,13 +13,10 @@ messages:
     hubSuccess: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Teleporting to hub..."
 
   # <player> player
-  # <server1> initial server
-  # <server2> destination server
+  # <server> initial server
   sendCommand:
-    noServerError: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Server not found."
-
     sendPlayerToServer: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Teleporting <color:#F11642><player> <color:#EF5B80>to <color:#F11642><server>..."
-    sendServerToServer: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Sending entire server <color:#F11642><server1> <color:#EF5B80>to <color:#F11642><server2>"
+    sendServerToServer: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Sending entire server <color:#EF5B80>to <color:#F11642><server>"
 
     noArgumentsServer: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Server not found."
     noArgumentsPlayer: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Player not found."
