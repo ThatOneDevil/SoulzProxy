@@ -13,7 +13,7 @@ class ProxyInfo(override var commandName: String, override var aliases: String?,
         val servers = proxy.allServers
 
         if (source != null) {
-            val message = Component.text("")
+            val message = Component.text()
                 .append(convertLegacyToMiniMessage("&r<color:#F11642>=== Proxy Information ===\n"))
                 .append(convertLegacyToMiniMessage(" <color:#EF5B80>&l▍ &r<color:#EF5B80>Proxy Version: <color:#F11642>${proxy.version.version}\n"))
                 .append(convertLegacyToMiniMessage(" <color:#EF5B80>&l▍ &r<color:#EF5B80>Number of Players: <color:#F11642>${proxy.playerCount}\n"))
@@ -25,7 +25,7 @@ class ProxyInfo(override var commandName: String, override var aliases: String?,
                 message.append(convertLegacyToMiniMessage(" <color:#EF5B80>&l▍ &r<color:#EF5B80>${server.serverInfo.name}: <color:#F11642>$playerCount\n"))
             }
 
-            source.sendMessage(message)
+            source.sendMessage(message.build())
         } else {
             println("Command executed from console.")
         }

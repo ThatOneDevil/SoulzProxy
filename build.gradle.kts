@@ -20,14 +20,23 @@ repositories {
     maven("https://oss.sonatype.org/content/groups/public/") {
         name = "sonatype"
     }
+    maven("https://jitpack.io") {
+        name = "jitpack"
+    }
 }
 
 dependencies {
     compileOnly("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
     kapt("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    compileOnly("net.luckperms:api:5.4")
 
+    compileOnly("net.luckperms:api:5.4")
+    compileOnly("ch.qos.logback:logback-classic:1.5.6")
+
+    implementation("net.dv8tion:JDA:5.3.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    implementation("mysql:mysql-connector-java:8.0.33")
 }
 
 val targetJavaVersion = 17

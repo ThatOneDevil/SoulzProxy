@@ -9,6 +9,8 @@ import com.velocitypowered.api.plugin.Plugin
 import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
 import me.thatonedevil.soulzProxy.commands.*
+import me.thatonedevil.soulzProxy.linking.DataManager
+import me.thatonedevil.soulzProxy.linking.LinkCommand
 import me.thatonedevil.soulzProxy.utils.Config
 import org.slf4j.Logger
 import java.nio.file.Path
@@ -26,7 +28,7 @@ import java.nio.file.Path
 )
 
 
-class SoulzProxy @Inject constructor(private val logger: Logger, private var proxy: ProxyServer, @DataDirectory val dataDirectory: Path) {
+class SoulzProxy @Inject constructor(var logger: Logger, private var proxy: ProxyServer, @DataDirectory val dataDirectory: Path) {
 
     companion object {
         lateinit var instance: SoulzProxy
@@ -43,6 +45,7 @@ class SoulzProxy @Inject constructor(private val logger: Logger, private var pro
         val configReload = ConfigReload("configReload", null, proxy)
         val send = Send("send", null, proxy)
         val proxyInfo = ProxyInfo("proxyInfo", null, proxy)
+        val linkCommand = LinkCommand("link", null, proxy)
 
         println(proxy.allServers.forEach {
             logger.info("Server: ${it.serverInfo.name}")
@@ -53,15 +56,26 @@ class SoulzProxy @Inject constructor(private val logger: Logger, private var pro
         commandManager.register(configReload.commandMeta(), configReload)
         commandManager.register(send.commandMeta(), send)
         commandManager.register(proxyInfo.commandMeta(), proxyInfo)
+        commandManager.register(linkCommand.commandMeta(), linkCommand)
 
-        Config.loadConfigAsync()
+        Config.loadConfigAsync().thenRun {
+            val token = Config.getMessage("token")
+            if (token.isEmpty()) {
+                logger.error("Missing bot token in config.yml")
+                this.proxy.shutdown()
+            }
 
+            JdaManager.init(token, proxy)
+            DataManager.createTable()
+        }
 
     }
 
     @Subscribe
     fun onProxyInitialization(event: ProxyShutdownEvent) {
         logger.info("SoulzProxy is shutting down!")
+
+        JdaManager.shutdown()
     }
 
 }

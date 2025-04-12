@@ -1,3 +1,18 @@
+token: ""
+
+# Must be set to the guild id of the discord server
+guildId: ""
+# Must be set to the channel id of the server chat channel
+serverChatChannel: ""
+# Must be set to the role id of the verified role
+verifiedRole: "
+
+database:
+  # type must be set to either MYSQL or FILE
+  type: "MYSQL"
+  # MYSQL settings
+  jdbcString: ""
+
 messages:
   global:
     permissionError: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>You don't have permission to use this command."
@@ -20,3 +35,16 @@ messages:
 
     noArgumentsServer: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Server not found."
     noArgumentsPlayer: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Player not found."
+
+
+  linkCommand:
+    # message sent when a player links their account, use \n for new line
+    linkCodeMessage: "<color:#F11642>&l▍ SoulNetwork <color:#EF5B80>Your linking code is <color:#F11642><code><color:#EF5B80> click me to copy and go to the channel <color:#F11642>#link-here&f!"
+
+    # <player> player name, use \n for new line
+    linkedBroadcast: "<color:#F11642>&l▍ SoulNetwork <color:#F11642><player> <color:#EF5B80>has successfully linked to discord! <color:#F11642>&o(/link)"
+
+    # error message when a player tries to link their account, but they are already linked
+    linkedError: "<color:#F11642>&l▍ SoulNetwork <color:#EF5B80>You are already linked to discord!"
+
+    linkCodeExpired: "<color:#F11642>&l▍ SoulNetwork <color:#EF5B80>Your linking code has expired! Please use /link to get a new one!"
