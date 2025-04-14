@@ -6,7 +6,7 @@ import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.ProxyServer
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier
 import me.thatonedevil.soulzProxy.SoulzCommand
-import me.thatonedevil.soulzProxy.utils.Config.getMessage
+import me.thatonedevil.soulzProxy.utils.Config.getServerSpecificMessage
 import me.thatonedevil.soulzProxy.utils.Utils
 import me.thatonedevil.soulzProxy.utils.Utils.convertLegacyToMiniMessage
 import net.kyori.adventure.text.Component
@@ -22,9 +22,10 @@ class LinkClaim(override var commandName: String, override var aliases: String?,
         }
 
         val playerData = DataManager.getPlayerData(source)
+        val serverConnection = source.currentServer.get()
 
         if (!playerData.linked) {
-            source.sendMessage(convertLegacyToMiniMessage(getMessage("messages.linkCommand.linkedError")))
+            source.sendMessage(convertLegacyToMiniMessage(getServerSpecificMessage("messages.linkCommand.linkedError", serverConnection)))
             return
         }
 

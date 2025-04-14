@@ -5,7 +5,7 @@ import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.ProxyServer
 import me.thatonedevil.soulzProxy.SoulzCommand
 import me.thatonedevil.soulzProxy.SoulzProxy.Companion.instance
-import me.thatonedevil.soulzProxy.utils.Config.getMessage
+import me.thatonedevil.soulzProxy.utils.Config.getServerSpecificMessage
 import me.thatonedevil.soulzProxy.utils.Utils.convertLegacyToMiniMessage
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.ClickEvent
@@ -27,8 +27,10 @@ class LinkCommand(override var commandName: String, override var aliases: String
             return
         }
 
+        val serverConnection = source.currentServer.get()
+
         if (DataManager.getPlayerData(source).linked) {
-            source.sendMessage(convertLegacyToMiniMessage(getMessage("messages.linkCommand.notLinkedError")))
+            source.sendMessage(convertLegacyToMiniMessage(getServerSpecificMessage("messages.linkCommand.linkedError", serverConnection)))
             return
         }
 
@@ -41,7 +43,7 @@ class LinkCommand(override var commandName: String, override var aliases: String
 
         DataManager.storeLinkingCode(code, source.uniqueId)
 
-        val rawMessage = getMessage("messages.linkCommand.linkCodeMessage")
+        val rawMessage = getServerSpecificMessage("messages.linkCommand.linkCodeMessage", serverConnection)
         val formattedMessage = rawMessage.replace("<code>", code)
         val miniMessageFormatted = convertLegacyToMiniMessage(formattedMessage)
 
@@ -50,7 +52,7 @@ class LinkCommand(override var commandName: String, override var aliases: String
         proxy.scheduler.buildTask(instance, Runnable {
             if (DataManager.getUUIDFromCode(code) != null) {
                 DataManager.removeLinkingCode(code)
-                val expiredMessage = getMessage("messages.linkCommand.linkCodeExpired")
+                val expiredMessage = getServerSpecificMessage("messages.linkCommand.linkCodeExpired", serverConnection)
                 val miniMessageExpired = convertLegacyToMiniMessage(expiredMessage)
                 source.sendMessage(miniMessageExpired)
             }

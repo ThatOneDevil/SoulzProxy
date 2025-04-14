@@ -1,3 +1,7 @@
+# ----------------------------------
+# CONFIGURE BOT HERE
+# ----------------------------------
+
 token: ""
 
 # Must be set to the guild id of the discord server
@@ -5,48 +9,69 @@ guildId: ""
 # Must be set to the channel id of the server chat channel
 serverChatChannel: ""
 # Must be set to the role id of the verified role
-verifiedRole: "
+verifiedRole: ""
+
+# ----------------------------------
+# CONFIGURE DATABASE HERE
+# ----------------------------------
 
 database:
-  # type must be set to either MYSQL or FILE
+  # type must be set to MYSQL
   type: "MYSQL"
   # MYSQL settings
   jdbcString: ""
 
+# ----------------------------------
+# CONFIGURE MESSAGES HERE
+# ----------------------------------
+
 messages:
+  colour:
+    # primary colour is the one u want to stand out
+    # secondary colour is the one u want to be more subtle eg the lighter shade of the primary colour
+    LifeSteal:
+      primary: "<color:#F11642>"
+      secondary: "<color:#EF5B80>"
+    Box:
+      primary: "<color:#5D6FF2>"
+      secondary: "<color:#A2ADFF>"
+    Hub:
+      primary: ""
+      secondary: ""
+
   global:
-    permissionError: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>You don't have permission to use this command."
-    configReloadSuccess: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Configuration reloaded successfully."
+    permissionError: "<primary>&l▍ SoulNetwork &r<secondary>You don't have permission to use this command."
+    configReloadSuccess: "<primary>&l▍ SoulNetwork &r<secondary>Configuration reloaded successfully."
 
   # <message> message in the argument
   broadcast:
-    noArguments: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Broadcast message not found."
-    broadcastMessage: "<color:#F11642>&l▍ <color:#F11642>Global Broadcast\n<color:#F11642>&l▍ &r<color:#EF5B80><player>: &f<message>"
+    noArguments: "<primary>&l▍ SoulNetwork &r<secondary>Broadcast message not found."
+    broadcastMessage: "<primary>&l▍ <primary>Global Broadcast\n<primary>&l▍ &r<secondary><player>: &f<message>"
 
   hub:
-    hubError: "<color:#F11642>&l▍ Error &r<color:#EF5B80>Hub server not found."
-    hubSuccess: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Teleporting to hub..."
+    hubError: "<primary>&l▍ Error &r<secondary>Hub server not found."
+    hubSuccess: "<primary>&l▍ SoulNetwork &r<secondary>Teleporting to hub..."
 
   # <player> player
   # <server> initial server
   sendCommand:
-    sendPlayerToServer: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Teleporting <color:#F11642><player> <color:#EF5B80>to <color:#F11642><server>..."
-    sendServerToServer: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Sending entire server <color:#EF5B80>to <color:#F11642><server>"
+    sendPlayerToServer: "<primary>&l▍ SoulNetwork &r<secondary>Teleporting <primary><player> <secondary>to <primary><server>..."
+    sendServerToServer: "<primary>&l▍ SoulNetwork &r<secondary>Sending entire server <secondary>to <primary><server>"
 
-    noArgumentsServer: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Server not found."
-    noArgumentsPlayer: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Player not found."
+    noArgumentsServer: "<primary>&l▍ SoulNetwork &r<secondary>Server not found."
+    noArgumentsPlayer: "<primary>&l▍ SoulNetwork &r<secondary>Player not found."
 
   linkCommand:
     # message sent when a player links their account, use \n for new line
-    linkCodeMessage: "<color:#F11642>&l▍ SoulNetwork <color:#EF5B80>Your linking code is <color:#F11642><code><color:#EF5B80> click me to copy and go to the channel <color:#F11642>#link-here&f!"
+    linkCodeMessage: "<primary>&l▍ SoulNetwork &r<secondary>Your linking code is <primary><code><secondary> click me to copy and go to the channel <primary>#link-here&f!"
 
     # <player> player name, use \n for new line
-    linkedBroadcast: "<color:#F11642>&l▍ SoulNetwork <color:#F11642><player> <color:#EF5B80>has successfully linked to discord! <color:#F11642>&o(/link)"
+    linkedBroadcast: "<primary>&l▍ SoulNetwork &r<primary><player> <secondary>has successfully linked to discord! <primary>&o(/link)"
 
     # error message when a player tries to link their account, but they are already linked
-    linkedError: "<color:#F11642>&l▍ SoulNetwork <color:#EF5B80>You are already linked to discord!"
+    linkedError: "<primary>&l▍ SoulNetwork &r<secondary>You are already linked to discord!"
 
     # error message when a player tries to link their account, but they are not linked
-    notLinkedError: "<color:#F11642>&l▍ SoulNetwork <color:#EF5B80>You are not linked to discord!"
+    notLinkedError: "<primary>&l▍ SoulNetwork &r<secondary>You are not linked to discord!"
 
-    linkCodeExpired: "<color:#F11642>&l▍ SoulNetwork <color:#EF5B80>Your linking code has expired! Please use /link to get a new one!"
+    linkCodeExpired: "<primary>&l▍ SoulNetwork &r<secondary>Your linking code has expired! Please use /link to get a new one!"

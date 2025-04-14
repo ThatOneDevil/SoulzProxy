@@ -1,5 +1,6 @@
 package me.thatonedevil.soulzProxy.utils
 
+import com.velocitypowered.api.proxy.ServerConnection
 import me.thatonedevil.soulzProxy.SoulzProxy
 import org.yaml.snakeyaml.Yaml
 import java.io.InputStream
@@ -41,6 +42,16 @@ object Config {
             }
         }
         return current as? String ?: "Message not found"
+    }
+
+    fun getServerSpecificMessage(message: String, serverConnection: ServerConnection): String {
+        val serverName = serverConnection.serverInfo.name
+        val serverMessage = getMessage(message)
+            .replace("<primary>", getMessage("messages.colour.${serverName}.primary"))
+            .replace("<secondary>", getMessage("messages.colour.${serverName}.secondary"))
+
+        return serverMessage
+
     }
 
     private fun saveDefaultConfigAsync(): CompletableFuture<Void> {

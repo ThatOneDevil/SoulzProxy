@@ -17,14 +17,17 @@ class ServerBroadcast(override var commandName: String, override var aliases: St
             return
         }
 
+        val serverConnection = source.currentServer.get()
+
         if (invocation.arguments().isEmpty()) {
-            source.sendMessage(convertLegacyToMiniMessage(Config.getMessage("messages.broadcast.noArguments")))
+            source.sendMessage(convertLegacyToMiniMessage(Config.getServerSpecificMessage("messages.broadcast.noArguments", serverConnection)))
             return
         }
 
         val message = invocation.arguments().joinToString(" ")
-        val broadcastMessage: String = Config.getMessage("messages.broadcast.broadcastMessage").replace("<message>", message).replace("<player>", source.username)
-
+        val broadcastMessage: String = Config.getServerSpecificMessage("messages.broadcast.broadcastMessage", serverConnection)
+            .replace("<message>", message)
+            .replace("<player>", source.username)
 
         proxy.sendMessage(Component.empty())
         proxy.sendMessage(convertLegacyToMiniMessage(broadcastMessage))

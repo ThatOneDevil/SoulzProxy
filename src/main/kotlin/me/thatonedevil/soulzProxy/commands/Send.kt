@@ -24,25 +24,27 @@ class Send(override var commandName: String, override var aliases: String?, over
             return
         }
 
+        val serverConnection = source.currentServer.get()
+
         if (invocation.arguments().isEmpty()) {
-            source.sendMessage(convertLegacyToMiniMessage(Config.getMessage("messages.sendCommand.noArgumentsPlayer")))
+            source.sendMessage(convertLegacyToMiniMessage(Config.getServerSpecificMessage("messages.sendCommand.noArgumentsPlayer", serverConnection)))
             return
         }
 
         if (invocation.arguments().size < 2) {
-            source.sendMessage(convertLegacyToMiniMessage(Config.getMessage("messages.sendCommand.noArgumentsServer")))
+            source.sendMessage(convertLegacyToMiniMessage(Config.getServerSpecificMessage("messages.sendCommand.noArgumentsServer", serverConnection)))
             return
         }
 
         val playerArg = invocation.arguments()[0]
         val serverNameArg = invocation.arguments()[1]
         val server = proxy.getServer(serverNameArg).getOrElse {
-            source.sendMessage(convertLegacyToMiniMessage(Config.getMessage("messages.sendCommand.noArgumentsServer")))
+            source.sendMessage(convertLegacyToMiniMessage(Config.getServerSpecificMessage("messages.sendCommand.noArgumentsServer", serverConnection)))
             return
         }
 
         if (playerArg == "all") {
-            val sendPlayerToServerMessage: String = Config.getMessage("messages.sendCommand.sendServerToServer")
+            val sendPlayerToServerMessage: String = Config.getServerSpecificMessage("messages.sendCommand.sendServerToServer", serverConnection)
                 .replace("<server>", serverNameArg)
 
             for (player in source.currentServer.get().server.playersConnected) {
@@ -55,13 +57,13 @@ class Send(override var commandName: String, override var aliases: String?, over
         }
 
         val player = proxy.getPlayer(invocation.arguments()[0]).getOrElse {
-            source.sendMessage(convertLegacyToMiniMessage(Config.getMessage("messages.sendCommand.noArgumentsPlayer")))
+            source.sendMessage(convertLegacyToMiniMessage(Config.getServerSpecificMessage("messages.sendCommand.noArgumentsPlayer", serverConnection)))
             return
         }
 
         player.createConnectionRequest(server).connect()
 
-        val sendPlayerToServerMessage: String = Config.getMessage("messages.sendCommand.sendPlayerToServer")
+        val sendPlayerToServerMessage: String = Config.getServerSpecificMessage("messages.sendCommand.sendPlayerToServer", serverConnection)
             .replace("<player>", player.username)
             .replace("<server>", serverNameArg)
 

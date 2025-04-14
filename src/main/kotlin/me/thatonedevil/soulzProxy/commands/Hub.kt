@@ -19,8 +19,8 @@ class Hub(override var commandName: String, override var aliases: String?, overr
 
         val server = proxy.getServer("hub")
 
-        val hubSuccessMessage: String = Config.getMessage("messages.hub.hubSuccess")
-        val hubServerNotFoundMessage: String = Config.getMessage("messages.hub.hubError")
+        val hubSuccessMessage: String = Config.getServerSpecificMessage("messages.hub.hubSuccess", source.currentServer.get())
+        val hubServerNotFoundMessage: String = Config.getServerSpecificMessage("messages.hub.hubError", source.currentServer.get())
 
         server.ifPresentOrElse({
             source.createConnectionRequest(it).connect()

@@ -12,6 +12,7 @@ import me.thatonedevil.soulzProxy.JdaManager.jdaEnabled
 import me.thatonedevil.soulzProxy.JdaManager.verifiedRole
 import me.thatonedevil.soulzProxy.linking.DataManager.isLinked
 import me.thatonedevil.soulzProxy.utils.Config.getMessage
+import me.thatonedevil.soulzProxy.utils.Config.getServerSpecificMessage
 import me.thatonedevil.soulzProxy.utils.Utils
 import me.thatonedevil.soulzProxy.utils.Utils.convertLegacyToMiniMessage
 import net.dv8tion.jda.api.EmbedBuilder
@@ -112,12 +113,13 @@ class LinkEmbed(var proxy: ProxyServer) : ListenerAdapter() {
 
             event.replyEmbeds(embed).setEphemeral(true).queue()
 
-            val message = getMessage("messages.linkCommand.linkedBroadcast")
+            val serverConnection = player.currentServer.get()
+            val message = getServerSpecificMessage("messages.linkCommand.linkedBroadcast", serverConnection)
             val formattedMessage = message
                 .replace("<player>", playerName)
 
             val miniMessageFormatted = convertLegacyToMiniMessage(formattedMessage)
-            player.currentServer.get().server.sendMessage(miniMessageFormatted)
+            serverConnection.server.sendMessage(miniMessageFormatted)
 
             val data = DataManager.getPlayerData(player)
             data.linked = true
