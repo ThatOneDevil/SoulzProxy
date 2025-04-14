@@ -36,7 +36,6 @@ messages:
     noArgumentsServer: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Server not found."
     noArgumentsPlayer: "<color:#F11642>&l▍ SoulNetwork &r<color:#EF5B80>Player not found."
 
-
   linkCommand:
     # message sent when a player links their account, use \n for new line
     linkCodeMessage: "<color:#F11642>&l▍ SoulNetwork <color:#EF5B80>Your linking code is <color:#F11642><code><color:#EF5B80> click me to copy and go to the channel <color:#F11642>#link-here&f!"
@@ -46,5 +45,8 @@ messages:
 
     # error message when a player tries to link their account, but they are already linked
     linkedError: "<color:#F11642>&l▍ SoulNetwork <color:#EF5B80>You are already linked to discord!"
+
+    # error message when a player tries to link their account, but they are not linked
+    notLinkedError: "<color:#F11642>&l▍ SoulNetwork <color:#EF5B80>You are not linked to discord!"
 
     linkCodeExpired: "<color:#F11642>&l▍ SoulNetwork <color:#EF5B80>Your linking code has expired! Please use /link to get a new one!"

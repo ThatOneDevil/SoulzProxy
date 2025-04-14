@@ -10,6 +10,7 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
 import me.thatonedevil.soulzProxy.commands.*
 import me.thatonedevil.soulzProxy.linking.DataManager
+import me.thatonedevil.soulzProxy.linking.LinkClaim
 import me.thatonedevil.soulzProxy.linking.LinkCommand
 import me.thatonedevil.soulzProxy.utils.Config
 import org.slf4j.Logger
@@ -46,6 +47,7 @@ class SoulzProxy @Inject constructor(var logger: Logger, private var proxy: Prox
         val send = Send("send", null, proxy)
         val proxyInfo = ProxyInfo("proxyInfo", null, proxy)
         val linkCommand = LinkCommand("link", null, proxy)
+        val linkClaim = LinkClaim("linkClaim", null, proxy)
 
         println(proxy.allServers.forEach {
             logger.info("Server: ${it.serverInfo.name}")
@@ -57,6 +59,7 @@ class SoulzProxy @Inject constructor(var logger: Logger, private var proxy: Prox
         commandManager.register(send.commandMeta(), send)
         commandManager.register(proxyInfo.commandMeta(), proxyInfo)
         commandManager.register(linkCommand.commandMeta(), linkCommand)
+        commandManager.register(linkClaim.commandMeta(), linkClaim)
 
         Config.loadConfigAsync().thenRun {
             val token = Config.getMessage("token")
@@ -68,7 +71,6 @@ class SoulzProxy @Inject constructor(var logger: Logger, private var proxy: Prox
             JdaManager.init(token, proxy)
             DataManager.createTable()
         }
-
     }
 
     @Subscribe

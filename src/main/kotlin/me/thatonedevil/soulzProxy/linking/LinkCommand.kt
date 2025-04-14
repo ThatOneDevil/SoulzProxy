@@ -27,10 +27,8 @@ class LinkCommand(override var commandName: String, override var aliases: String
             return
         }
 
-        if (LinkManager(source).isLinked) {
-            val miniMessageFormatted =
-                convertLegacyToMiniMessage(getMessage("messages.linkCommand.linkedError"))
-            source.sendMessage(miniMessageFormatted)
+        if (DataManager.getPlayerData(source).linked) {
+            source.sendMessage(convertLegacyToMiniMessage(getMessage("messages.linkCommand.notLinkedError")))
             return
         }
 

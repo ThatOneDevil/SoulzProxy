@@ -1,11 +1,18 @@
 package me.thatonedevil.soulzProxy.linking
 
+import com.google.common.io.ByteStreams
+import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.ProxyServer
+import com.velocitypowered.api.proxy.ServerConnection
+import com.velocitypowered.api.proxy.messages.ChannelIdentifier
+import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier
+import com.velocitypowered.api.proxy.server.RegisteredServer
 import me.thatonedevil.soulzProxy.JdaManager.guild
 import me.thatonedevil.soulzProxy.JdaManager.jdaEnabled
 import me.thatonedevil.soulzProxy.JdaManager.verifiedRole
 import me.thatonedevil.soulzProxy.linking.DataManager.isLinked
 import me.thatonedevil.soulzProxy.utils.Config.getMessage
+import me.thatonedevil.soulzProxy.utils.Utils
 import me.thatonedevil.soulzProxy.utils.Utils.convertLegacyToMiniMessage
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.Permission
@@ -18,6 +25,8 @@ import net.dv8tion.jda.api.interactions.components.text.TextInput
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle
 import net.dv8tion.jda.api.interactions.modals.Modal
 import java.awt.Color
+import java.util.*
+
 
 class LinkEmbed(var proxy: ProxyServer) : ListenerAdapter() {
 
@@ -117,9 +126,17 @@ class LinkEmbed(var proxy: ProxyServer) : ListenerAdapter() {
             player.uniqueId
             guild?.addRoleToMember(event.user, verifiedRole!!)?.queue()
 
+            val out = ByteStreams.newDataOutput()
+            out.writeUTF(player.username)
+            out.writeUTF(event.user.id)
+            out.writeBoolean(true)
+
+            Utils.sendPluginMessageToBackendUsingPlayer(player, MinecraftChannelIdentifier.from("soulzproxy:main"), out.toByteArray());
+
             DataManager.savePlayerData(data)
             LinkCommand.removeCode(code)
 
         }
     }
+
 }
