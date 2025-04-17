@@ -3,4 +3,11 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="17" />
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="SoulzProxy" options="-proc:none" />
+      <module name="SoulzProxy.test" options="-proc:none" />
+      <module name="me.thatonedevil.SoulzProxy.main" options="-proc:none" />
+    </option>
+  </component>
 </project>

@@ -9,7 +9,8 @@ import com.velocitypowered.api.plugin.Plugin
 import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
 import me.thatonedevil.soulzProxy.commands.*
-import me.thatonedevil.soulzProxy.linking.DataManager
+import me.thatonedevil.soulzProxy.events.PlayerConnectionEvents
+import me.thatonedevil.soulzProxy.linking.database.DataManager
 import me.thatonedevil.soulzProxy.linking.LinkClaim
 import me.thatonedevil.soulzProxy.linking.LinkCommand
 import me.thatonedevil.soulzProxy.utils.Config
@@ -53,6 +54,8 @@ class SoulzProxy @Inject constructor(var logger: Logger, private var proxy: Prox
             logger.info("Server: ${it.serverInfo.name}")
         })
 
+        proxy.eventManager.register(this, PlayerConnectionEvents(proxy));
+
         commandManager.register(hubCommand.commandMeta(), hubCommand)
         commandManager.register(serverBroadcast.commandMeta(), serverBroadcast)
         commandManager.register(configReload.commandMeta(), configReload)
@@ -69,7 +72,7 @@ class SoulzProxy @Inject constructor(var logger: Logger, private var proxy: Prox
             }
 
             JdaManager.init(token, proxy)
-            DataManager.createTable()
+            DataManager.init()
         }
     }
 

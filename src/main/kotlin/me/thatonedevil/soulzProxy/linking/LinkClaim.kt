@@ -6,6 +6,7 @@ import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.ProxyServer
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier
 import me.thatonedevil.soulzProxy.SoulzCommand
+import me.thatonedevil.soulzProxy.linking.database.DataManager
 import me.thatonedevil.soulzProxy.utils.Config.getServerSpecificMessage
 import me.thatonedevil.soulzProxy.utils.Utils
 import me.thatonedevil.soulzProxy.utils.Utils.convertLegacyToMiniMessage

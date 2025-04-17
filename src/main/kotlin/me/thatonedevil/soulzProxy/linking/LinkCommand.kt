@@ -5,6 +5,7 @@ import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.ProxyServer
 import me.thatonedevil.soulzProxy.SoulzCommand
 import me.thatonedevil.soulzProxy.SoulzProxy.Companion.instance
+import me.thatonedevil.soulzProxy.linking.database.DataManager
 import me.thatonedevil.soulzProxy.utils.Config.getServerSpecificMessage
 import me.thatonedevil.soulzProxy.utils.Utils.convertLegacyToMiniMessage
 import net.kyori.adventure.text.Component
