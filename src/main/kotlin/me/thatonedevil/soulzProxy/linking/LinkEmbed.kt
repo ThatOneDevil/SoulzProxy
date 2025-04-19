@@ -124,8 +124,7 @@ class LinkEmbed(var proxy: ProxyServer) : ListenerAdapter() {
             guild?.addRoleToMember(event.user, verifiedRole!!)?.queue()
 
             val out = ByteStreams.newDataOutput()
-            out.writeUTF(player.username)
-            out.writeUTF(event.user.id)
+            out.writeUTF(player.uniqueId.toString())
             out.writeBoolean(true)
 
             Utils.sendPluginMessageToBackendUsingPlayer(player, MinecraftChannelIdentifier.from("soulzproxy:main"), out.toByteArray());

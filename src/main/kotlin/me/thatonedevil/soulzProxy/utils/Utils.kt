@@ -30,7 +30,7 @@ object Utils {
 
     fun sendPluginMessageToBackendUsingPlayer(player: Player, identifier: ChannelIdentifier, data: ByteArray): Boolean {
         val connection: Optional<ServerConnection> = player.currentServer
-        if (connection.isPresent()) {
+        if (connection.isPresent) {
             return connection.get().sendPluginMessage(identifier, data)
         }
         return false

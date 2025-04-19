@@ -10,7 +10,6 @@ import net.kyori.adventure.text.Component
 import java.util.concurrent.CompletableFuture
 import java.util.stream.Collectors
 import kotlin.jvm.optionals.getOrElse
-import kotlin.jvm.optionals.getOrNull
 
 
 class Send(override var commandName: String, override var aliases: String?, override var proxy: ProxyServer ) : SoulzCommandAdmin {

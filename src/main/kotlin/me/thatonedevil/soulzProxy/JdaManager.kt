@@ -3,7 +3,6 @@ package me.thatonedevil.soulzProxy
 import com.velocitypowered.api.proxy.ProxyServer
 import me.thatonedevil.soulzProxy.linking.LinkEmbed
 import me.thatonedevil.soulzProxy.linking.UserInfoCommand
-import me.thatonedevil.soulzProxy.utils.Config
 import me.thatonedevil.soulzProxy.utils.Config.getMessage
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
