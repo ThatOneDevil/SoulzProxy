@@ -84,10 +84,10 @@ object JdaManager {
 
         if (!isReady) return
 
-        val topic = if (online) "Players: ${proxy.allPlayers.size}" else "Server Offline"
+        val topic = if (online) "Global Players: ${proxy.allPlayers.size}" else "Server Offline"
         jda.presence.activity = Activity.watching(topic)
 
-        SoulzProxy.instance.logger.info("Updated channel topic to: $topic")
+        SoulzProxy.instance.logger.info("Updated status: $topic")
     }
 
     private fun logError(msg: String) {

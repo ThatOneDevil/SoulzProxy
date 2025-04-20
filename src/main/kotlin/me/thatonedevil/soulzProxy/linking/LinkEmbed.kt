@@ -46,6 +46,7 @@ class LinkEmbed(var proxy: ProxyServer) : ListenerAdapter() {
                 .addField("📌 **Step 1:**", "Use `/link` in Minecraft to generate a unique code.", false)
                 .addField("📌 **Step 2:**", "Click the button below and enter your 6-digit code.", false)
                 .addField("📌 **Step 3:**", "If the code is correct, your accounts will be linked automatically!", false)
+                .addField("📌 **Step 4:**", "Claim your reward using `/linkclaim`", false)
                 .setFooter("SoulzSteal Linking System • ThatOneDevil", null)
                 .build()
 
