@@ -38,7 +38,7 @@ class LinkEmbed(var proxy: ProxyServer) : ListenerAdapter() {
             val embed = EmbedBuilder()
                 .setTitle("🔗 Link Your Minecraft Account")
                 .setColor(Color(46, 204, 113)) // Nice green color for linking success
-                .setThumbnail("https://cdn.discordapp.com/avatars/1237115078038524015/dc6e4719b07fe06cffdc6ca68ead806f.webp?size=100")
+                .setThumbnail("https://github.com/ThatOneDevil/SoulzProxy/blob/42fafdf2bf6666fabfb6d7ce79a7a11c7a70506d/images/soulz-logo.png?raw=true")
                 .setDescription(
                     "⚡ **Easily connect your Discord & Minecraft accounts!**\n\n" +
                             "Follow the steps below to complete the linking process."
