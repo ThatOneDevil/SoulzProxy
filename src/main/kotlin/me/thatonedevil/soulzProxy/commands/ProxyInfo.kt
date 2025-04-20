@@ -30,6 +30,5 @@ class ProxyInfo(override var commandName: String, override var aliases: String?,
             println("Command executed from console.")
         }
 
-
     }
 }

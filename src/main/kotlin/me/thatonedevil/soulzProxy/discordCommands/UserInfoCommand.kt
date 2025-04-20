@@ -1,4 +1,4 @@
-package me.thatonedevil.soulzProxy.linking
+package me.thatonedevil.soulzProxy.discordCommands
 
 import com.velocitypowered.api.proxy.ProxyServer
 import me.thatonedevil.soulzProxy.linking.database.DataManager
@@ -13,7 +13,8 @@ class UserInfoCommand(var proxy: ProxyServer) : ListenerAdapter() {
     override fun onSlashCommandInteraction(e: SlashCommandInteractionEvent) {
         if (e.name == "userinfo") {
 
-            if (!e.member!!.hasPermission(Permission.ADMINISTRATOR)) {
+            val member = e.member
+            if (member == null || !member.hasPermission(Permission.ADMINISTRATOR)) {
                 e.reply("❌ You do not have permission to use this command!").setEphemeral(true).queue()
                 return
             }
@@ -35,6 +36,5 @@ class UserInfoCommand(var proxy: ProxyServer) : ListenerAdapter() {
             e.replyEmbeds(embed).setEphemeral(true).queue()
 
         }
-
     }
 }

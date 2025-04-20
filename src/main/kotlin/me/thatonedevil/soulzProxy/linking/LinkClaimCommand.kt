@@ -12,7 +12,7 @@ import me.thatonedevil.soulzProxy.utils.Utils
 import me.thatonedevil.soulzProxy.utils.Utils.convertLegacyToMiniMessage
 import net.kyori.adventure.text.Component
 
-class LinkClaim(override var commandName: String, override var aliases: String?, override var proxy: ProxyServer) : SoulzCommand {
+class LinkClaimCommand(override var commandName: String, override var aliases: String?, override var proxy: ProxyServer) : SoulzCommand {
     override fun execute(invocation: SimpleCommand.Invocation) {
 
         val source = invocation.source()

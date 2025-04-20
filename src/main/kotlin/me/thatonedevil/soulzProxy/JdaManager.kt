@@ -1,11 +1,13 @@
 package me.thatonedevil.soulzProxy
 
 import com.velocitypowered.api.proxy.ProxyServer
+import me.thatonedevil.soulzProxy.discordCommands.ProxyInfoCommand
 import me.thatonedevil.soulzProxy.linking.LinkEmbed
-import me.thatonedevil.soulzProxy.linking.UserInfoCommand
+import me.thatonedevil.soulzProxy.discordCommands.UserInfoCommand
 import me.thatonedevil.soulzProxy.utils.Config.getMessage
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
+import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.Role
@@ -19,21 +21,18 @@ import java.util.concurrent.CompletableFuture
 
 object JdaManager {
     private lateinit var jda: JDA
-    var jdaEnabled: Boolean = true
     private var isReady: Boolean = false
     var guild: Guild? = null
     var verifiedRole: Role? = null
 
     fun init(token: String, proxy: ProxyServer) {
-        if (!jdaEnabled) return
-
         CompletableFuture.runAsync {
             runCatching {
                 jda = JDABuilder.createDefault(token)
                     .setMemberCachePolicy(MemberCachePolicy.ALL)
                     .setBulkDeleteSplittingEnabled(false)
                     .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.MESSAGE_CONTENT)
-                    .addEventListeners(LinkEmbed(proxy), UserInfoCommand(proxy))
+                    .addEventListeners(LinkEmbed(proxy), UserInfoCommand(proxy), ProxyInfoCommand(proxy))
                     .build()
                     .awaitReady()
 
@@ -48,7 +47,6 @@ object JdaManager {
     }
 
     fun shutdown() {
-        if (!jdaEnabled) return
         if (!isReady) return
 
         jda.shutdownNow()
@@ -56,7 +54,6 @@ object JdaManager {
     }
 
     private fun validateJDAConfig() {
-        if (!jdaEnabled) return
 
         val guildId = getMessage("guildId")
         val verifiedRoleId = getMessage("verifiedRole")
@@ -69,19 +66,17 @@ object JdaManager {
     }
 
     private fun registerCommands() {
-        if (!jdaEnabled) return
-
         guild?.updateCommands()?.addCommands(
             Commands.slash("linkembed", "Makes the link embed"),
             Commands.slash("userinfo", "Shows user info")
-                .addOptions(OptionData(OptionType.USER, "user", "The user to show info for").setRequired(true))
+                .addOptions(OptionData(OptionType.USER, "user", "The user to show info for").setRequired(true)),
+            Commands.slash("proxyinfo", "proxyinfo"),
+
         )?.queue()
     }
 
 
     fun updateChannelTopic(online: Boolean = true, proxy: ProxyServer) {
-        if (!jdaEnabled) return
-
         if (!isReady) return
 
         val topic = if (online) "Global Players: ${proxy.allPlayers.size}" else "Server Offline"
