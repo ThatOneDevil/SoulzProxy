@@ -1,15 +1,13 @@
 package me.thatonedevil.soulzProxy.linking
 
-import com.google.common.io.ByteStreams
 import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.ProxyServer
-import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier
 import me.thatonedevil.soulzProxy.JdaManager.guild
 import me.thatonedevil.soulzProxy.JdaManager.verifiedRole
 import me.thatonedevil.soulzProxy.linking.database.DataManager
 import me.thatonedevil.soulzProxy.linking.database.DataManager.isLinked
 import me.thatonedevil.soulzProxy.utils.Config.getServerSpecificMessage
-import me.thatonedevil.soulzProxy.utils.Utils
+import me.thatonedevil.soulzProxy.utils.MessagingUtils
 import me.thatonedevil.soulzProxy.utils.Utils.convertLegacyToMiniMessage
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.Permission
@@ -113,7 +111,7 @@ class LinkEmbed(private val proxy: ProxyServer) : ListenerAdapter() {
 
         broadcastLinkMessage(player, playerName)
         updatePlayerData(player, event.user.id)
-        notifyBackend(player)
+        MessagingUtils.notifyBackend(player)
         assignVerifiedRole(event.user)
         LinkCommand.removeCode(code)
     }
@@ -130,18 +128,6 @@ class LinkEmbed(private val proxy: ProxyServer) : ListenerAdapter() {
         data.linked = true
         data.userId = discordId
         DataManager.savePlayerData(data)
-    }
-
-    private fun notifyBackend(player: Player) {
-        val out = ByteStreams.newDataOutput().apply {
-            writeUTF(player.uniqueId.toString())
-            writeBoolean(true)
-        }
-        Utils.sendPluginMessageToBackendUsingPlayer(
-            player,
-            MinecraftChannelIdentifier.from("soulzproxy:main"),
-            out.toByteArray()
-        )
     }
 
     private fun assignVerifiedRole(user: User) {

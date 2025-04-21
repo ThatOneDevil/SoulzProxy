@@ -21,14 +21,14 @@ class ProxyInfoCommand(var proxy: ProxyServer) : ListenerAdapter() {
 
             val message = StringBuilder()
             message.append("=== Proxy Information ===\n")
-                .append(" ▍ **Proxy Version:** ``${proxy.version.version}``\n")
-                .append(" ▍ **Number of Players:** ``${proxy.playerCount}``\n")
-                .append(" ▍ **Server Count:** ``${servers.size}``\n\n")
+                .append(" **Proxy Version:** ``${proxy.version.version}``\n")
+                .append(" **Number of Players:** ``${proxy.playerCount}``\n")
+                .append(" **Server Count:** ``${servers.size}``\n\n")
                 .append("=== Servers List ===\n")
 
             for (server in servers) {
                 val playerCount = server.playersConnected.size
-                message.append(" ▍ **${server.serverInfo.name}**: ``$playerCount``\n")
+                message.append(" **${server.serverInfo.name}**: ``$playerCount``\n")
             }
 
             e.reply(message.toString()).queue()

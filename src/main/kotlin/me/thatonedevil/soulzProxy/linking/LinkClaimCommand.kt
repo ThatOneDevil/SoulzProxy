@@ -1,14 +1,12 @@
 package me.thatonedevil.soulzProxy.linking
 
-import com.google.common.io.ByteStreams
 import com.velocitypowered.api.command.SimpleCommand
 import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.ProxyServer
-import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier
 import me.thatonedevil.soulzProxy.SoulzCommand
 import me.thatonedevil.soulzProxy.linking.database.DataManager
 import me.thatonedevil.soulzProxy.utils.Config.getServerSpecificMessage
-import me.thatonedevil.soulzProxy.utils.Utils
+import me.thatonedevil.soulzProxy.utils.MessagingUtils.notifyBackend
 import me.thatonedevil.soulzProxy.utils.Utils.convertLegacyToMiniMessage
 import net.kyori.adventure.text.Component
 
@@ -30,10 +28,7 @@ class LinkClaimCommand(override var commandName: String, override var aliases: S
             return
         }
 
-        val out = ByteStreams.newDataOutput()
-        out.writeUTF(playerData.userId)
-        out.writeBoolean(true)
-
-        Utils.sendPluginMessageToBackendUsingPlayer(source, MinecraftChannelIdentifier.from("soulzproxy:main"), out.toByteArray());
+        notifyBackend(source)
     }
+
 }

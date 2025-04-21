@@ -2,6 +2,7 @@ package me.thatonedevil.soulzProxy.discordCommands
 
 import com.velocitypowered.api.proxy.ProxyServer
 import me.thatonedevil.soulzProxy.linking.database.DataManager
+import me.thatonedevil.soulzProxy.service.NameCacheService.nameFromUUID
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
@@ -22,7 +23,7 @@ class UserInfoCommand(var proxy: ProxyServer) : ListenerAdapter() {
             val user = e.getOption("user")?.asUser!!
             val uuidOfUser = DataManager.getUUIDFromDiscordId(user.id)
 
-            val minecraftName = proxy.getPlayer(uuidOfUser).get().username ?: "Unknown"
+            val minecraftName: String = uuidOfUser?.let { nameFromUUID(it) } ?: "Unknown"
 
             val embed = EmbedBuilder()
                 .setTitle("User Information")

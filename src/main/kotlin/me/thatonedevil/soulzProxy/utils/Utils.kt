@@ -3,6 +3,7 @@ package me.thatonedevil.soulzProxy.utils
 import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.ServerConnection
 import com.velocitypowered.api.proxy.messages.ChannelIdentifier
+import me.thatonedevil.soulzProxy.SoulzProxy
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
 import java.util.*
@@ -28,11 +29,5 @@ object Utils {
         return MiniMessage.miniMessage().deserialize(convertedInput)
     }
 
-    fun sendPluginMessageToBackendUsingPlayer(player: Player, identifier: ChannelIdentifier, data: ByteArray): Boolean {
-        val connection: Optional<ServerConnection> = player.currentServer
-        if (connection.isPresent) {
-            return connection.get().sendPluginMessage(identifier, data)
-        }
-        return false
-    }
+
 }
