@@ -24,7 +24,7 @@ class LinkClaimCommand(override var commandName: String, override var aliases: S
         val serverConnection = source.currentServer.get()
 
         if (!playerData.linked) {
-            source.sendMessage(convertLegacyToMiniMessage(getServerSpecificMessage("messages.linkCommand.linkedError", serverConnection)))
+            source.sendMessage(convertLegacyToMiniMessage(getServerSpecificMessage("messages.linkCommand.notLinkedError", serverConnection)))
             return
         }
 
