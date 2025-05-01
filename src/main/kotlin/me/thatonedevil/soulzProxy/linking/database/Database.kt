@@ -14,4 +14,12 @@ object Database {
         }.onFailure {
             println("Database connection error: ${it.message}")
         }.getOrNull()
+
+    fun closeConnection() {
+        runCatching {
+            DriverManager.getConnection(dbUrl).close()
+        }.onFailure {
+            println("Failed to close database connection: ${it.message}")
+        }.getOrNull()
+    }
 }

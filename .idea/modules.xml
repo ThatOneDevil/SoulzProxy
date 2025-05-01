@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SoulzProxy.main.iml" filepath="$PROJECT_DIR$/.idea/modules/SoulzProxy.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/me.thatonedevil.SoulzProxy.main.iml" filepath="$PROJECT_DIR$/.idea/modules/me.thatonedevil.SoulzProxy.main.iml" />
     </modules>
   </component>
 </project>

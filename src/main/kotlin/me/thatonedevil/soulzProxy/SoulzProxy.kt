@@ -13,6 +13,7 @@ import me.thatonedevil.soulzProxy.events.PlayerConnectionEvents
 import me.thatonedevil.soulzProxy.linking.database.DataManager
 import me.thatonedevil.soulzProxy.linking.LinkClaimCommand
 import me.thatonedevil.soulzProxy.linking.LinkCommand
+import me.thatonedevil.soulzProxy.linking.database.Database
 import me.thatonedevil.soulzProxy.utils.Config
 import org.slf4j.Logger
 import java.nio.file.Path
@@ -81,6 +82,7 @@ class SoulzProxy @Inject constructor(var logger: Logger, private var proxy: Prox
         logger.info("SoulzProxy is shutting down!")
 
         JdaManager.shutdown()
+        Database.closeConnection()
     }
 
 }

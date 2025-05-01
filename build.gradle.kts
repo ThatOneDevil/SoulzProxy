@@ -32,7 +32,10 @@ dependencies {
     compileOnly("net.luckperms:api:5.4")
     compileOnly("ch.qos.logback:logback-classic:1.5.6")
 
-    implementation("net.dv8tion:JDA:5.3.0")
+    implementation("net.dv8tion:JDA:5.3.0"){
+        exclude(module="opus-java")
+        exclude(module="tink")
+    }
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java

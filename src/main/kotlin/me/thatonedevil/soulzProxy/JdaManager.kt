@@ -1,13 +1,13 @@
 package me.thatonedevil.soulzProxy
 
 import com.velocitypowered.api.proxy.ProxyServer
+import me.thatonedevil.soulzProxy.discordCommands.PlayerList
 import me.thatonedevil.soulzProxy.discordCommands.ProxyInfoCommand
-import me.thatonedevil.soulzProxy.linking.LinkEmbed
 import me.thatonedevil.soulzProxy.discordCommands.UserInfoCommand
+import me.thatonedevil.soulzProxy.linking.LinkEmbed
 import me.thatonedevil.soulzProxy.utils.Config.getMessage
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
-import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.Role
@@ -32,13 +32,13 @@ object JdaManager {
                     .setMemberCachePolicy(MemberCachePolicy.ALL)
                     .setBulkDeleteSplittingEnabled(false)
                     .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.MESSAGE_CONTENT)
-                    .addEventListeners(LinkEmbed(proxy), UserInfoCommand(proxy), ProxyInfoCommand(proxy))
+                    .addEventListeners(LinkEmbed(proxy), UserInfoCommand(proxy), ProxyInfoCommand(proxy), PlayerList(proxy))
                     .build()
                     .awaitReady()
 
                 isReady = true
                 validateJDAConfig()
-                registerCommands()
+                registerCommands(proxy)
 
             }.onFailure {
                 logError(("Failed to init JDA: ${it.message}"))
@@ -65,16 +65,23 @@ object JdaManager {
         if (verifiedRole == null) logError("Verified role not found ($verifiedRoleId)")
     }
 
-    private fun registerCommands() {
+    private fun registerCommands(proxy: ProxyServer) {
+        val serverNames = proxy.allServers.map { it.serverInfo.name }
+
+        val serverOption = OptionData(OptionType.STRING, "server", "The server to show the player list for", true)
+        for (server in serverNames) {
+            serverOption.addChoice(server, server)
+        }
+
         guild?.updateCommands()?.addCommands(
             Commands.slash("linkembed", "Makes the link embed"),
             Commands.slash("userinfo", "Shows user info")
-                .addOptions(OptionData(OptionType.USER, "user", "The user to show info for").setRequired(true)),
+                .addOptions(OptionData(OptionType.USER, "user", "The user to show info for", true)),
             Commands.slash("proxyinfo", "proxyinfo"),
-
+            Commands.slash("playerlist", "Shows the player list")
+                .addOptions(serverOption)
         )?.queue()
     }
-
 
     fun updateChannelTopic(online: Boolean = true, proxy: ProxyServer) {
         if (!isReady) return
