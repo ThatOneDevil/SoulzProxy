@@ -1,6 +1,7 @@
 package me.thatonedevil.soulzProxy
 
 import com.velocitypowered.api.proxy.ProxyServer
+import me.thatonedevil.soulzProxy.SoulzProxy.Companion.redisBungeeAPI
 import me.thatonedevil.soulzProxy.discordCommands.PlayerList
 import me.thatonedevil.soulzProxy.discordCommands.ProxyInfoCommand
 import me.thatonedevil.soulzProxy.discordCommands.UserInfoCommand
@@ -83,10 +84,10 @@ object JdaManager {
         )?.queue()
     }
 
-    fun updateChannelTopic(online: Boolean = true, proxy: ProxyServer) {
+    fun updateChannelTopic(online: Boolean = true) {
         if (!isReady) return
 
-        val topic = if (online) "Global Players: ${proxy.allPlayers.size}" else "Server Offline"
+        val topic = if (online) "Global Players: ${redisBungeeAPI.playersOnline.size}" else "Server Offline"
         jda.presence.activity = Activity.watching(topic)
 
         SoulzProxy.instance.logger.info("Updated status: $topic")

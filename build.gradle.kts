@@ -40,6 +40,9 @@ dependencies {
 
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     implementation("mysql:mysql-connector-java:8.0.33")
+
+    compileOnly("com.github.ProxioDev.ValioBungee:RedisBungee-Velocity:0.12.3")
+
 }
 
 val targetJavaVersion = 17

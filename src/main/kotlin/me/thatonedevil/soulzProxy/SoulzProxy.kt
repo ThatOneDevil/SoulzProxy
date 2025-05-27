@@ -1,6 +1,7 @@
 package me.thatonedevil.soulzProxy
 
 import com.google.inject.Inject
+import com.imaginarycode.minecraft.redisbungee.RedisBungeeAPI
 import com.velocitypowered.api.event.Subscribe
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent
@@ -8,11 +9,12 @@ import com.velocitypowered.api.plugin.Dependency
 import com.velocitypowered.api.plugin.Plugin
 import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
+import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier
 import me.thatonedevil.soulzProxy.commands.*
 import me.thatonedevil.soulzProxy.events.PlayerConnectionEvents
-import me.thatonedevil.soulzProxy.linking.database.DataManager
 import me.thatonedevil.soulzProxy.linking.LinkClaimCommand
 import me.thatonedevil.soulzProxy.linking.LinkCommand
+import me.thatonedevil.soulzProxy.linking.database.DataManager
 import me.thatonedevil.soulzProxy.linking.database.Database
 import me.thatonedevil.soulzProxy.utils.Config
 import org.slf4j.Logger
@@ -27,6 +29,7 @@ import java.nio.file.Path
     authors = ["ThatOneDevil"],
     dependencies = [
         Dependency(id = "luckperms"),
+        Dependency(id = "redisbungee"),
     ]
 )
 
@@ -35,7 +38,9 @@ class SoulzProxy @Inject constructor(var logger: Logger, private var proxy: Prox
 
     companion object {
         lateinit var instance: SoulzProxy
+        lateinit var redisBungeeAPI: RedisBungeeAPI
     }
+
 
     @Subscribe
     fun onProxyInitialization(event: ProxyInitializeEvent) {
@@ -74,7 +79,9 @@ class SoulzProxy @Inject constructor(var logger: Logger, private var proxy: Prox
 
             JdaManager.init(token, proxy)
             DataManager.init()
+            redisBungeeAPI = RedisBungeeAPI.getRedisBungeeApi()
         }
+
     }
 
     @Subscribe

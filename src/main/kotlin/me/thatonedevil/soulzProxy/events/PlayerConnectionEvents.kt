@@ -10,11 +10,11 @@ class PlayerConnectionEvents(var proxy: ProxyServer) {
 
     @Subscribe
     fun onPlayerJoin(event: PostLoginEvent) {
-        updateChannelTopic(proxy = proxy)
+        updateChannelTopic()
     }
 
     @Subscribe
     fun onPlayerLeave(event: DisconnectEvent) {
-        updateChannelTopic(proxy = proxy)
+        updateChannelTopic()
     }
 }
