@@ -59,7 +59,4 @@ class LinkCommand(override var commandName: String, override var aliases: String
             }
         }).delay(30L, TimeUnit.SECONDS).schedule();
     }
-
-
-
 }

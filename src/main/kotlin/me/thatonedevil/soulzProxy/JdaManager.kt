@@ -2,6 +2,7 @@ package me.thatonedevil.soulzProxy
 
 import com.velocitypowered.api.proxy.ProxyServer
 import me.thatonedevil.soulzProxy.SoulzProxy.Companion.redisBungeeAPI
+import me.thatonedevil.soulzProxy.SoulzProxy.Companion.secondProxy
 import me.thatonedevil.soulzProxy.discordCommands.PlayerList
 import me.thatonedevil.soulzProxy.discordCommands.ProxyInfoCommand
 import me.thatonedevil.soulzProxy.discordCommands.UserInfoCommand
@@ -33,9 +34,12 @@ object JdaManager {
                     .setMemberCachePolicy(MemberCachePolicy.ALL)
                     .setBulkDeleteSplittingEnabled(false)
                     .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.MESSAGE_CONTENT)
-                    .addEventListeners(LinkEmbed(proxy), UserInfoCommand(proxy), ProxyInfoCommand(proxy), PlayerList(proxy))
                     .build()
                     .awaitReady()
+
+                if (!secondProxy) {
+                    jda.addEventListener(LinkEmbed(proxy), UserInfoCommand(proxy), ProxyInfoCommand(proxy), PlayerList(proxy))
+                }
 
                 isReady = true
                 validateJDAConfig()
@@ -89,8 +93,6 @@ object JdaManager {
 
         val topic = if (online) "Global Players: ${redisBungeeAPI.playersOnline.size}" else "Server Offline"
         jda.presence.activity = Activity.watching(topic)
-
-        SoulzProxy.instance.logger.info("Updated status: $topic")
     }
 
     private fun logError(msg: String) {

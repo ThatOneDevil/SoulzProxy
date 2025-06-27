@@ -11,14 +11,15 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier
 import me.thatonedevil.soulzProxy.commands.*
-import me.thatonedevil.soulzProxy.events.PlayerConnectionEvents
 import me.thatonedevil.soulzProxy.linking.LinkClaimCommand
 import me.thatonedevil.soulzProxy.linking.LinkCommand
 import me.thatonedevil.soulzProxy.linking.database.DataManager
 import me.thatonedevil.soulzProxy.linking.database.Database
 import me.thatonedevil.soulzProxy.utils.Config
+import me.thatonedevil.soulzProxy.utils.Config.getMessage
 import org.slf4j.Logger
 import java.nio.file.Path
+import java.util.concurrent.TimeUnit
 
 
 @Plugin(
@@ -38,9 +39,11 @@ class SoulzProxy @Inject constructor(var logger: Logger, private var proxy: Prox
 
     companion object {
         lateinit var instance: SoulzProxy
+            private set
         lateinit var redisBungeeAPI: RedisBungeeAPI
+            private set
+        var secondProxy: Boolean = false
     }
-
 
     @Subscribe
     fun onProxyInitialization(event: ProxyInitializeEvent) {
@@ -56,22 +59,18 @@ class SoulzProxy @Inject constructor(var logger: Logger, private var proxy: Prox
         val linkCommand = LinkCommand("link", null, proxy)
         val linkClaim = LinkClaimCommand("linkClaim", null, proxy)
 
-        println(proxy.allServers.forEach {
-            logger.info("Server: ${it.serverInfo.name}")
-        })
-
-        proxy.eventManager.register(this, PlayerConnectionEvents(proxy));
-
-        commandManager.register(hubCommand.commandMeta(), hubCommand)
-        commandManager.register(serverBroadcast.commandMeta(), serverBroadcast)
-        commandManager.register(configReload.commandMeta(), configReload)
-        commandManager.register(send.commandMeta(), send)
-        commandManager.register(proxyInfo.commandMeta(), proxyInfo)
-        commandManager.register(linkCommand.commandMeta(), linkCommand)
-        commandManager.register(linkClaim.commandMeta(), linkClaim)
+        if (!secondProxy) {
+            commandManager.register(hubCommand.commandMeta(), hubCommand)
+            commandManager.register(serverBroadcast.commandMeta(), serverBroadcast)
+            commandManager.register(configReload.commandMeta(), configReload)
+            commandManager.register(send.commandMeta(), send)
+            commandManager.register(proxyInfo.commandMeta(), proxyInfo)
+            commandManager.register(linkCommand.commandMeta(), linkCommand)
+            commandManager.register(linkClaim.commandMeta(), linkClaim)
+        }
 
         Config.loadConfigAsync().thenRun {
-            val token = Config.getMessage("token")
+            val token = getMessage("token")
             if (token.isEmpty()) {
                 logger.error("Missing bot token in config.yml")
                 this.proxy.shutdown()
@@ -80,8 +79,18 @@ class SoulzProxy @Inject constructor(var logger: Logger, private var proxy: Prox
             JdaManager.init(token, proxy)
             DataManager.init()
             redisBungeeAPI = RedisBungeeAPI.getRedisBungeeApi()
+            secondProxy = getMessage("secondProxy").toBoolean()
         }
 
+        println(proxy.allServers.forEach {
+            logger.info("Server: ${it.serverInfo.name}")
+        })
+
+        if (!secondProxy) {
+            proxy.scheduler.buildTask(this, Runnable {
+                JdaManager.updateChannelTopic()
+            }).repeat(10, TimeUnit.SECONDS).schedule()
+        }
     }
 
     @Subscribe
