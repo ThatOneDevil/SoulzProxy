@@ -19,7 +19,7 @@ object DataManager {
 
     fun removeLinkingCode(code: String) = LinkingCodeRepository.remove(code)
 
-    fun savePlayerData(data: LinkingData) = LinkingDataRepository.save(data)
+    fun savePlayerData(data: LinkingData?) = data?.let { LinkingDataRepository.save(it) }
 
     fun deletePlayerData(uuid: UUID) = LinkingDataRepository.delete(uuid)
 
@@ -31,6 +31,8 @@ object DataManager {
 
     fun getPlayerData(player: Player): LinkingData =
         loadPlayerData(player.uniqueId) ?: LinkingData(player.uniqueId, player.username)
+
+    fun getPlayerData(uuid: UUID): LinkingData? = LinkingDataRepository.load(uuid)
 
     fun isLinked(id: String) = LinkingDataRepository.isLinked(id)
 }

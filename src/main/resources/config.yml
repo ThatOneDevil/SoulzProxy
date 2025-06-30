@@ -3,7 +3,7 @@
 # ----------------------------------
 
 token: ""
-secondProxy: false
+secondProxy: "false"
 
 # Must be set to the guild id of the discord server
 guildId: ""

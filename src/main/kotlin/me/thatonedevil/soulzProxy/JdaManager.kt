@@ -36,15 +36,13 @@ object JdaManager {
                     .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.MESSAGE_CONTENT)
                     .build()
                     .awaitReady()
-
+                validateJDAConfig()
                 if (!secondProxy) {
                     jda.addEventListener(LinkEmbed(proxy), UserInfoCommand(proxy), ProxyInfoCommand(proxy), PlayerList(proxy))
+                    registerCommands(proxy)
                 }
 
                 isReady = true
-                validateJDAConfig()
-                registerCommands(proxy)
-
             }.onFailure {
                 logError(("Failed to init JDA: ${it.message}"))
             }
@@ -63,8 +61,8 @@ object JdaManager {
         val guildId = getMessage("guildId")
         val verifiedRoleId = getMessage("verifiedRole")
 
-        guild = jda.getGuildById(guildId ?: "")
-        verifiedRole = guild?.getRoleById(verifiedRoleId ?: "")
+        guild = jda.getGuildById(guildId)
+        verifiedRole = guild?.getRoleById(verifiedRoleId)
 
         if (guild == null) logError("Guild not found ($guildId)")
         if (verifiedRole == null) logError("Verified role not found ($verifiedRoleId)")

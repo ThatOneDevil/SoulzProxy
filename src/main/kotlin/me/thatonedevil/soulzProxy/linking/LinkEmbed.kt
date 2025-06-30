@@ -2,10 +2,16 @@ package me.thatonedevil.soulzProxy.linking
 
 import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.ProxyServer
+import com.velocitypowered.api.proxy.server.RegisteredServer
+import com.velocitypowered.api.proxy.server.ServerInfo
 import me.thatonedevil.soulzProxy.JdaManager.guild
 import me.thatonedevil.soulzProxy.JdaManager.verifiedRole
+import me.thatonedevil.soulzProxy.SoulzProxy
+import me.thatonedevil.soulzProxy.SoulzProxy.Companion.redisBungeeAPI
+import me.thatonedevil.soulzProxy.SoulzProxy.Companion.secondProxy
 import me.thatonedevil.soulzProxy.linking.database.DataManager
 import me.thatonedevil.soulzProxy.linking.database.DataManager.isLinked
+import me.thatonedevil.soulzProxy.service.NameCacheService
 import me.thatonedevil.soulzProxy.utils.Config.getServerSpecificMessage
 import me.thatonedevil.soulzProxy.utils.MessagingUtils
 import me.thatonedevil.soulzProxy.utils.Utils.convertLegacyToMiniMessage
@@ -21,6 +27,7 @@ import net.dv8tion.jda.api.interactions.components.text.TextInput
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle
 import net.dv8tion.jda.api.interactions.modals.Modal
 import java.awt.Color
+import java.util.UUID
 
 class LinkEmbed(private val proxy: ProxyServer) : ListenerAdapter() {
 
@@ -84,12 +91,17 @@ class LinkEmbed(private val proxy: ProxyServer) : ListenerAdapter() {
             return
         }
 
-        val player = proxy.getPlayer(uuid).orElse(null) ?: run {
-            event.reply("❌ Player not found!").setEphemeral(true).queue()
+        if (!redisBungeeAPI.isPlayerOnline(uuid) || redisBungeeAPI.getServerFor(uuid) == null) {
+            event.reply("❌ Player not found! Make sure you are online in Minecraft.").setEphemeral(true).queue()
             return
         }
 
-        linkPlayerToDiscord(event, player, code)
+        try{
+            linkPlayerToDiscord(event, proxy.getPlayer(uuid).get(), code)
+        } catch (e: Exception) {
+            event.reply("❌ An error occurred while linking your account. Please try again later.").setEphemeral(true).queue()
+            return
+        }
     }
 
     private fun linkPlayerToDiscord(event: ModalInteractionEvent, player: Player, code: String) {
@@ -128,6 +140,13 @@ class LinkEmbed(private val proxy: ProxyServer) : ListenerAdapter() {
         data.userId = discordId
         DataManager.savePlayerData(data)
     }
+    private fun updatePlayerData(uuid: UUID, discordId: String) {
+        val data = DataManager.getPlayerData(uuid)
+        data?.linked = true
+        data?.userId = discordId
+        DataManager.savePlayerData(data)
+    }
+
 
     private fun assignVerifiedRole(user: User) {
         guild?.addRoleToMember(user, verifiedRole!!)?.queue()
