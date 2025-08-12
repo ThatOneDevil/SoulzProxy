@@ -86,11 +86,18 @@ object JdaManager {
         )?.queue()
     }
 
-    fun updateChannelTopic(online: Boolean = true) {
+    fun updateChannelTopic(proxy: ProxyServer) {
         if (!isReady) return
 
-        val topic = if (online) "Global Players: ${redisBungeeAPI.playersOnline.size}" else "Server Offline"
+        val topic: String = if (redisBungeeAPI != null) {
+            "Global Players: ${redisBungeeAPI!!.playersOnline.size}"
+        } else {
+            "Global Players: ${proxy.allPlayers.size}"
+        }
+
+
         jda.presence.activity = Activity.watching(topic)
+
     }
 
     private fun logError(msg: String) {

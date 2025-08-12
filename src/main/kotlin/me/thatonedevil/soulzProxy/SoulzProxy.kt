@@ -8,9 +8,7 @@ import com.velocitypowered.api.event.proxy.ProxyShutdownEvent
 import com.velocitypowered.api.plugin.Dependency
 import com.velocitypowered.api.plugin.Plugin
 import com.velocitypowered.api.plugin.annotation.DataDirectory
-import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.ProxyServer
-import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier
 import me.thatonedevil.soulzProxy.commands.*
 import me.thatonedevil.soulzProxy.linking.LinkClaimCommand
 import me.thatonedevil.soulzProxy.linking.LinkCommand
@@ -32,7 +30,7 @@ import java.util.concurrent.TimeUnit
     authors = ["ThatOneDevil"],
     dependencies = [
         Dependency(id = "luckperms"),
-        Dependency(id = "redisbungee"),
+        Dependency(id = "redisbungee", optional = true),
     ]
 )
 
@@ -42,10 +40,9 @@ class SoulzProxy @Inject constructor(var logger: Logger, private var proxy: Prox
     companion object {
         lateinit var instance: SoulzProxy
             private set
-        lateinit var redisBungeeAPI: RedisBungeeAPI
+        var redisBungeeAPI: RedisBungeeAPI? = null
             private set
         var secondProxy: Boolean = false
-        lateinit var playerList: Set<UUID>
     }
 
     @Subscribe
@@ -62,12 +59,16 @@ class SoulzProxy @Inject constructor(var logger: Logger, private var proxy: Prox
             secondProxy = getMessage("secondProxy").toBoolean()
             JdaManager.init(token, proxy)
             DataManager.init()
-            redisBungeeAPI = RedisBungeeAPI.getRedisBungeeApi()
+
+            redisBungeeAPI = if (proxy.pluginManager.getPlugin("redisbungee").isPresent){
+                RedisBungeeAPI.getRedisBungeeApi()
+            }else{
+                null
+            }
 
             if (!secondProxy) {
                 proxy.scheduler.buildTask(this, Runnable {
-                    JdaManager.updateChannelTopic()
-                    playerList = redisBungeeAPI.playersOnline
+                    JdaManager.updateChannelTopic(proxy = proxy)
                 }).repeat(10, TimeUnit.SECONDS).schedule()
             }
         }
