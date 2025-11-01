@@ -18,7 +18,6 @@ import me.thatonedevil.soulzProxy.utils.Config
 import me.thatonedevil.soulzProxy.utils.Config.getMessage
 import org.slf4j.Logger
 import java.nio.file.Path
-import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 
@@ -35,7 +34,11 @@ import java.util.concurrent.TimeUnit
 )
 
 
-class SoulzProxy @Inject constructor(var logger: Logger, private var proxy: ProxyServer, @DataDirectory val dataDirectory: Path) {
+class SoulzProxy @Inject constructor(
+    var logger: Logger,
+    private var proxy: ProxyServer,
+    @param:DataDirectory val dataDirectory: Path
+) {
 
     companion object {
         lateinit var instance: SoulzProxy
@@ -60,9 +63,9 @@ class SoulzProxy @Inject constructor(var logger: Logger, private var proxy: Prox
             JdaManager.init(token, proxy)
             DataManager.init()
 
-            redisBungeeAPI = if (proxy.pluginManager.getPlugin("redisbungee").isPresent){
+            redisBungeeAPI = if (proxy.pluginManager.getPlugin("redisbungee").isPresent) {
                 RedisBungeeAPI.getRedisBungeeApi()
-            }else{
+            } else {
                 null
             }
 
@@ -82,7 +85,7 @@ class SoulzProxy @Inject constructor(var logger: Logger, private var proxy: Prox
         val linkCommand = LinkCommand("link", null, proxy)
         val linkClaim = LinkClaimCommand("linkClaim", null, proxy)
 
-        if (!secondProxy){
+        if (!secondProxy) {
             commandManager.register(linkCommand.commandMeta(), linkCommand)
         }
 

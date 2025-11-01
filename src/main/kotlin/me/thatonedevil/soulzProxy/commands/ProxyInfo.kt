@@ -6,7 +6,8 @@ import me.thatonedevil.soulzProxy.SoulzCommandAdmin
 import me.thatonedevil.soulzProxy.utils.Utils.convertLegacyToMiniMessage
 import net.kyori.adventure.text.Component
 
-class ProxyInfo(override var commandName: String, override var aliases: String?, override var proxy: ProxyServer) : SoulzCommandAdmin {
+class ProxyInfo(override var commandName: String, override var aliases: String?, override var proxy: ProxyServer) :
+    SoulzCommandAdmin {
     override fun execute(p0: SimpleCommand.Invocation?) {
         val source = p0?.source()
 

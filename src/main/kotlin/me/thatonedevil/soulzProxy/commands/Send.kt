@@ -12,7 +12,8 @@ import java.util.stream.Collectors
 import kotlin.jvm.optionals.getOrElse
 
 
-class Send(override var commandName: String, override var aliases: String?, override var proxy: ProxyServer ) : SoulzCommandAdmin {
+class Send(override var commandName: String, override var aliases: String?, override var proxy: ProxyServer) :
+    SoulzCommandAdmin {
 
 
     override fun execute(invocation: SimpleCommand.Invocation) {
@@ -26,25 +27,47 @@ class Send(override var commandName: String, override var aliases: String?, over
         val serverConnection = source.currentServer.get()
 
         if (invocation.arguments().isEmpty()) {
-            source.sendMessage(convertLegacyToMiniMessage(Config.getServerSpecificMessage("messages.sendCommand.noArgumentsPlayer", serverConnection)))
+            source.sendMessage(
+                convertLegacyToMiniMessage(
+                    Config.getServerSpecificMessage(
+                        "messages.sendCommand.noArgumentsPlayer",
+                        serverConnection
+                    )
+                )
+            )
             return
         }
 
         if (invocation.arguments().size < 2) {
-            source.sendMessage(convertLegacyToMiniMessage(Config.getServerSpecificMessage("messages.sendCommand.noArgumentsServer", serverConnection)))
+            source.sendMessage(
+                convertLegacyToMiniMessage(
+                    Config.getServerSpecificMessage(
+                        "messages.sendCommand.noArgumentsServer",
+                        serverConnection
+                    )
+                )
+            )
             return
         }
 
         val playerArg = invocation.arguments()[0]
         val serverNameArg = invocation.arguments()[1]
         val server = proxy.getServer(serverNameArg).getOrElse {
-            source.sendMessage(convertLegacyToMiniMessage(Config.getServerSpecificMessage("messages.sendCommand.noArgumentsServer", serverConnection)))
+            source.sendMessage(
+                convertLegacyToMiniMessage(
+                    Config.getServerSpecificMessage(
+                        "messages.sendCommand.noArgumentsServer",
+                        serverConnection
+                    )
+                )
+            )
             return
         }
 
         if (playerArg == "all") {
-            val sendPlayerToServerMessage: String = Config.getServerSpecificMessage("messages.sendCommand.sendServerToServer", serverConnection)
-                .replace("<server>", serverNameArg)
+            val sendPlayerToServerMessage: String =
+                Config.getServerSpecificMessage("messages.sendCommand.sendServerToServer", serverConnection)
+                    .replace("<server>", serverNameArg)
 
             for (player in source.currentServer.get().server.playersConnected) {
                 player.createConnectionRequest(server).connect()
@@ -56,15 +79,23 @@ class Send(override var commandName: String, override var aliases: String?, over
         }
 
         val player = proxy.getPlayer(invocation.arguments()[0]).getOrElse {
-            source.sendMessage(convertLegacyToMiniMessage(Config.getServerSpecificMessage("messages.sendCommand.noArgumentsPlayer", serverConnection)))
+            source.sendMessage(
+                convertLegacyToMiniMessage(
+                    Config.getServerSpecificMessage(
+                        "messages.sendCommand.noArgumentsPlayer",
+                        serverConnection
+                    )
+                )
+            )
             return
         }
 
         player.createConnectionRequest(server).connect()
 
-        val sendPlayerToServerMessage: String = Config.getServerSpecificMessage("messages.sendCommand.sendPlayerToServer", serverConnection)
-            .replace("<player>", player.username)
-            .replace("<server>", serverNameArg)
+        val sendPlayerToServerMessage: String =
+            Config.getServerSpecificMessage("messages.sendCommand.sendPlayerToServer", serverConnection)
+                .replace("<player>", player.username)
+                .replace("<server>", serverNameArg)
 
         source.sendMessage(convertLegacyToMiniMessage(sendPlayerToServerMessage))
     }
@@ -74,14 +105,15 @@ class Send(override var commandName: String, override var aliases: String?, over
         if (invocation.arguments().isEmpty()) {
             val players = mutableListOf("all")
 
-            players.addAll(proxy.allPlayers.stream()
-                .map { player: Player -> player.username }
-                .collect(Collectors.toList()))
+            players.addAll(
+                proxy.allPlayers.stream()
+                    .map { player: Player -> player.username }
+                    .collect(Collectors.toList()))
 
             return CompletableFuture.completedFuture(players)
         }
 
-        if (invocation.arguments().size == 2){
+        if (invocation.arguments().size == 2) {
             val serverNames = proxy.allServers.stream()
                 .map { server -> server.serverInfo.name }
                 .collect(Collectors.toList())
@@ -92,5 +124,5 @@ class Send(override var commandName: String, override var aliases: String?, over
         return CompletableFuture.completedFuture(emptyList())
     }
 
-    
+
 }

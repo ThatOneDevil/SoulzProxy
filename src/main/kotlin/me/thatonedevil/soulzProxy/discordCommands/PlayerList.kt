@@ -28,7 +28,7 @@ class PlayerList(var proxy: ProxyServer) : ListenerAdapter() {
             message.append("**Online Players:**\n")
             if (playerList.isEmpty()) {
                 message.append("No players online.")
-            }else{
+            } else {
                 message.append("\n``${names.joinToString(", ")}``\n")
             }
 

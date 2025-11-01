@@ -22,7 +22,11 @@ object MessagingUtils {
         )
     }
 
-    private fun sendPluginMessageToBackendUsingPlayer(player: Player, identifier: ChannelIdentifier, data: ByteArray): Boolean {
+    private fun sendPluginMessageToBackendUsingPlayer(
+        player: Player,
+        identifier: ChannelIdentifier,
+        data: ByteArray
+    ): Boolean {
         val connection: Optional<ServerConnection> = player.currentServer
         if (connection.isPresent) {
             val serverConnection: ServerConnection = connection.get()

@@ -8,7 +8,8 @@ import me.thatonedevil.soulzProxy.utils.Config
 import me.thatonedevil.soulzProxy.utils.Utils.convertLegacyToMiniMessage
 import net.kyori.adventure.text.Component
 
-class ConfigReload(override var commandName: String, override var aliases: String?, override var proxy: ProxyServer) : SoulzCommandAdmin {
+class ConfigReload(override var commandName: String, override var aliases: String?, override var proxy: ProxyServer) :
+    SoulzCommandAdmin {
     override fun execute(invocation: SimpleCommand.Invocation) {
 
         val source = invocation.source()
@@ -16,7 +17,14 @@ class ConfigReload(override var commandName: String, override var aliases: Strin
         Config.loadConfigAsync()
 
         if (source is Player) {
-            source.sendMessage(convertLegacyToMiniMessage(Config.getServerSpecificMessage("messages.global.configReloadSuccess", source.currentServer.get())))
+            source.sendMessage(
+                convertLegacyToMiniMessage(
+                    Config.getServerSpecificMessage(
+                        "messages.global.configReloadSuccess",
+                        source.currentServer.get()
+                    )
+                )
+            )
             return
         }
 

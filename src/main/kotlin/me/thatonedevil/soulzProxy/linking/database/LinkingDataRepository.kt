@@ -9,24 +9,28 @@ object LinkingDataRepository {
 
     fun createTable(connection: Connection) {
         connection.createStatement().use { stmt ->
-            stmt.execute("""
+            stmt.execute(
+                """
                 CREATE TABLE IF NOT EXISTS linking_data (
                     uuid CHAR(36) PRIMARY KEY,
                     name CHAR(50) NOT NULL,
                     linked BOOLEAN NOT NULL DEFAULT FALSE,
                     user_id VARCHAR(50) NOT NULL
                 );
-            """)
+            """
+            )
         }
     }
 
     fun save(data: LinkingData): CompletableFuture<Void> = CompletableFuture.runAsync {
         Database.getConnection()?.use { conn ->
-            conn.prepareStatement("""
+            conn.prepareStatement(
+                """
                 INSERT INTO linking_data (uuid, name, linked, user_id)
                 VALUES (?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE name = VALUES(name), linked = VALUES(linked), user_id = VALUES(user_id)
-            """).use {
+            """
+            ).use {
                 it.setString(1, data.uuid.toString())
                 it.setString(2, data.name)
                 it.setBoolean(3, data.linked)

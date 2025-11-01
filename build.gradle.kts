@@ -2,11 +2,11 @@ import org.jetbrains.gradle.ext.settings
 import org.jetbrains.gradle.ext.taskTriggers
 
 plugins {
-    kotlin("jvm") version "2.0.20-Beta1"
-    kotlin("kapt") version "2.0.20-Beta1"
+    kotlin("jvm") version "2.2.21"
+    kotlin("kapt") version "2.2.21"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("eclipse")
-    id("org.jetbrains.gradle.plugin.idea-ext") version "1.1.8"
+    id("org.jetbrains.gradle.plugin.idea-ext") version "1.3"
 }
 
 group = "me.thatonedevil"
@@ -30,7 +30,6 @@ dependencies {
     kapt("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
 
     compileOnly("net.luckperms:api:5.4")
-    compileOnly("ch.qos.logback:logback-classic:1.5.6")
 
     implementation("net.dv8tion:JDA:5.3.0"){
         exclude(module="opus-java")
@@ -38,8 +37,8 @@ dependencies {
     }
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-    implementation("mysql:mysql-connector-java:8.0.33")
+    // https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
+    implementation("com.mysql:mysql-connector-j:9.5.0")
 
     compileOnly("com.github.ProxioDev.ValioBungee:RedisBungee-Velocity:0.12.3")
 

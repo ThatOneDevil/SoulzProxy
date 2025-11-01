@@ -8,22 +8,26 @@ object LinkingCodeRepository {
 
     fun createTable(connection: Connection) {
         connection.createStatement().use { stmt ->
-            stmt.execute("""
+            stmt.execute(
+                """
                 CREATE TABLE IF NOT EXISTS linking_codes (
                     code VARCHAR(10) NOT NULL,
                     uuid CHAR(36) PRIMARY KEY
                 );
-            """)
+            """
+            )
         }
     }
 
     fun store(code: String, uuid: UUID): CompletableFuture<Void> = CompletableFuture.runAsync {
         Database.getConnection()?.use { conn ->
-            conn.prepareStatement("""
+            conn.prepareStatement(
+                """
                 INSERT INTO linking_codes (code, uuid)
                 VALUES (?, ?)
                 ON DUPLICATE KEY UPDATE code = VALUES(code)
-            """).use {
+            """
+            ).use {
                 it.setString(1, code)
                 it.setString(2, uuid.toString())
                 it.executeUpdate()

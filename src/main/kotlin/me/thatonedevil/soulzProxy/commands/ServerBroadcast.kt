@@ -8,7 +8,11 @@ import me.thatonedevil.soulzProxy.utils.Config
 import me.thatonedevil.soulzProxy.utils.Utils.convertLegacyToMiniMessage
 import net.kyori.adventure.text.Component
 
-class ServerBroadcast(override var commandName: String, override var aliases: String?, override var proxy: ProxyServer,) : SoulzCommandAdmin {
+class ServerBroadcast(
+    override var commandName: String,
+    override var aliases: String?,
+    override var proxy: ProxyServer,
+) : SoulzCommandAdmin {
     override fun execute(invocation: SimpleCommand.Invocation) {
         val source = invocation.source()
 
@@ -20,14 +24,22 @@ class ServerBroadcast(override var commandName: String, override var aliases: St
         val serverConnection = source.currentServer.get()
 
         if (invocation.arguments().isEmpty()) {
-            source.sendMessage(convertLegacyToMiniMessage(Config.getServerSpecificMessage("messages.broadcast.noArguments", serverConnection)))
+            source.sendMessage(
+                convertLegacyToMiniMessage(
+                    Config.getServerSpecificMessage(
+                        "messages.broadcast.noArguments",
+                        serverConnection
+                    )
+                )
+            )
             return
         }
 
         val message = invocation.arguments().joinToString(" ")
-        val broadcastMessage: String = Config.getServerSpecificMessage("messages.broadcast.broadcastMessage", serverConnection)
-            .replace("<message>", message)
-            .replace("<player>", source.username)
+        val broadcastMessage: String =
+            Config.getServerSpecificMessage("messages.broadcast.broadcastMessage", serverConnection)
+                .replace("<message>", message)
+                .replace("<player>", source.username)
 
         proxy.sendMessage(Component.empty())
         proxy.sendMessage(convertLegacyToMiniMessage(broadcastMessage))

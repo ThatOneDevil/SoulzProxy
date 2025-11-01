@@ -10,7 +10,11 @@ import me.thatonedevil.soulzProxy.utils.MessagingUtils.notifyBackend
 import me.thatonedevil.soulzProxy.utils.Utils.convertLegacyToMiniMessage
 import net.kyori.adventure.text.Component
 
-class LinkClaimCommand(override var commandName: String, override var aliases: String?, override var proxy: ProxyServer) : SoulzCommand {
+class LinkClaimCommand(
+    override var commandName: String,
+    override var aliases: String?,
+    override var proxy: ProxyServer
+) : SoulzCommand {
     override fun execute(invocation: SimpleCommand.Invocation) {
 
         val source = invocation.source()
@@ -24,7 +28,14 @@ class LinkClaimCommand(override var commandName: String, override var aliases: S
         val serverConnection = source.currentServer.get()
 
         if (!playerData.linked) {
-            source.sendMessage(convertLegacyToMiniMessage(getServerSpecificMessage("messages.linkCommand.notLinkedError", serverConnection)))
+            source.sendMessage(
+                convertLegacyToMiniMessage(
+                    getServerSpecificMessage(
+                        "messages.linkCommand.notLinkedError",
+                        serverConnection
+                    )
+                )
+            )
             return
         }
 

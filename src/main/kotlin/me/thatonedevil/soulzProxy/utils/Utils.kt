@@ -1,12 +1,7 @@
 package me.thatonedevil.soulzProxy.utils
 
-import com.velocitypowered.api.proxy.Player
-import com.velocitypowered.api.proxy.ServerConnection
-import com.velocitypowered.api.proxy.messages.ChannelIdentifier
-import me.thatonedevil.soulzProxy.SoulzProxy
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
-import java.util.*
 
 object Utils {
 

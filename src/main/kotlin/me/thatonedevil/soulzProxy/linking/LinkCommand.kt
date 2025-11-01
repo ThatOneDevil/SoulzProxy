@@ -13,7 +13,8 @@ import net.kyori.adventure.text.event.ClickEvent
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class LinkCommand(override var commandName: String, override var aliases: String?, override var proxy: ProxyServer) : SoulzCommand {
+class LinkCommand(override var commandName: String, override var aliases: String?, override var proxy: ProxyServer) :
+    SoulzCommand {
     companion object {
         fun getUUIDFromCode(code: String): UUID? = DataManager.getUUIDFromCode(code)
 
@@ -31,7 +32,14 @@ class LinkCommand(override var commandName: String, override var aliases: String
         val serverConnection = source.currentServer.get()
 
         if (DataManager.getPlayerData(source).linked) {
-            source.sendMessage(convertLegacyToMiniMessage(getServerSpecificMessage("messages.linkCommand.linkedError", serverConnection)))
+            source.sendMessage(
+                convertLegacyToMiniMessage(
+                    getServerSpecificMessage(
+                        "messages.linkCommand.linkedError",
+                        serverConnection
+                    )
+                )
+            )
             return
         }
 
@@ -57,6 +65,6 @@ class LinkCommand(override var commandName: String, override var aliases: String
                 val miniMessageExpired = convertLegacyToMiniMessage(expiredMessage)
                 source.sendMessage(miniMessageExpired)
             }
-        }).delay(30L, TimeUnit.SECONDS).schedule();
+        }).delay(30L, TimeUnit.SECONDS).schedule()
     }
 }

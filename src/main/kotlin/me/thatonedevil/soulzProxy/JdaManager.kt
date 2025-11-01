@@ -38,7 +38,12 @@ object JdaManager {
                     .awaitReady()
                 validateJDAConfig()
                 if (!secondProxy) {
-                    jda.addEventListener(LinkEmbed(proxy), UserInfoCommand(proxy), ProxyInfoCommand(proxy), PlayerList(proxy))
+                    jda.addEventListener(
+                        LinkEmbed(proxy),
+                        UserInfoCommand(proxy),
+                        ProxyInfoCommand(proxy),
+                        PlayerList(proxy)
+                    )
                     registerCommands(proxy)
                 }
 
