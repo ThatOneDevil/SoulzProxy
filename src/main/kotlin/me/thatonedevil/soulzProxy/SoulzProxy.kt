@@ -46,6 +46,8 @@ class SoulzProxy @Inject constructor(
         var redisBungeeAPI: RedisBungeeAPI? = null
             private set
         var secondProxy: Boolean = false
+        lateinit var prefix: String
+            private set
     }
 
     @Subscribe
@@ -59,6 +61,7 @@ class SoulzProxy @Inject constructor(
                 logger.error("Missing bot token in config.yml")
                 this.proxy.shutdown()
             }
+            prefix = getMessage("prefix")
             secondProxy = getMessage("secondProxy").toBoolean()
             JdaManager.init(token, proxy)
             DataManager.init()

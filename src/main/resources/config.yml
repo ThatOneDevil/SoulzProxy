@@ -4,6 +4,7 @@
 
 token: ""
 secondProxy: "false"
+prefix: "SoulzSteal"
 
 # Must be set to the guild id of the discord server
 guildId: ""

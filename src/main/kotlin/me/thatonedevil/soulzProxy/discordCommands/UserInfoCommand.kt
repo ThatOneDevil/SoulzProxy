@@ -1,6 +1,7 @@
 package me.thatonedevil.soulzProxy.discordCommands
 
 import com.velocitypowered.api.proxy.ProxyServer
+import me.thatonedevil.soulzProxy.SoulzProxy.Companion.prefix
 import me.thatonedevil.soulzProxy.linking.database.DataManager
 import me.thatonedevil.soulzProxy.service.NameCacheService.nameFromUUID
 import net.dv8tion.jda.api.EmbedBuilder
@@ -31,7 +32,7 @@ class UserInfoCommand(var proxy: ProxyServer) : ListenerAdapter() {
                 .setThumbnail(user.avatarUrl)
                 .addField("Discord ID", user.id, false)
                 .addField("Minecraft Name", minecraftName, false)
-                .setFooter("SoulzSteal Linking System • ThatOneDevil", null)
+                .setFooter("$prefix Linking System • ThatOneDevil", null)
                 .build()
 
             e.replyEmbeds(embed).setEphemeral(true).queue()

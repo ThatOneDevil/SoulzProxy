@@ -4,6 +4,7 @@ import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.ProxyServer
 import me.thatonedevil.soulzProxy.JdaManager.guild
 import me.thatonedevil.soulzProxy.JdaManager.verifiedRole
+import me.thatonedevil.soulzProxy.SoulzProxy.Companion.prefix
 import me.thatonedevil.soulzProxy.SoulzProxy.Companion.redisBungeeAPI
 import me.thatonedevil.soulzProxy.linking.database.DataManager
 import me.thatonedevil.soulzProxy.linking.database.DataManager.isLinked
@@ -71,7 +72,7 @@ class LinkEmbed(private val proxy: ProxyServer) : ListenerAdapter() {
         addField("📌 **Step 2:**", "Click the button below and enter your **6-digit code**.", false)
         addField("📌 **Step 3:**", "If the code is correct, your accounts will be linked **automatically**!", false)
         addField("📌 **Step 4:**", "Claim your reward using `/linkclaim` in **Minecraft**", false)
-        setFooter("SoulzSteal Linking System • ThatOneDevil", null)
+        setFooter("$prefix Linking System • ThatOneDevil", null)
     }.build()
 
     private fun handleLinking(event: ModalInteractionEvent, code: String) {
